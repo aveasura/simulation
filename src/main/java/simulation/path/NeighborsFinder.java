@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NeighborsFinder {
-    // 4 направления
+
     private static final int[][] DIRS_4 = {
             {-1, 0}, {1, 0}, {0, -1}, {0, 1}
     };

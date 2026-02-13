@@ -13,13 +13,13 @@ public class Renderer {
                 Position position = new Position(x, y);
                 if (map.isOccupied(position)) {
                     Entity entity = map.getAt(position);
-                    System.out.print(" " + entity.type().symbol() + " ");
+                    System.out.printf(" %s ", entity.type().symbol());
                 } else {
-                    System.out.print(EMPTY_CELL);
+                    System.out.printf(EMPTY_CELL);
                 }
             }
             System.out.println();
         }
-        System.out.println("Количество ходов: " + stepCounter + "\n");
+        System.out.printf("Количество ходов: %d \n\n", stepCounter);
     }
 }

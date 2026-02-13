@@ -71,7 +71,7 @@ public class BreadthFirstSearch implements PathFinder {
         return path.get(1);
     }
 
-    public List<Position> findPathToNearestInteractionPosition(Position start, Creature mover, SimulationMap map, MoveRules rules) {
+    private List<Position> findPathToNearestInteractionPosition(Position start, Creature mover, SimulationMap map, MoveRules rules) {
         Queue<Position> q = new ArrayDeque<>();
         Set<Position> visited = new HashSet<>();
         Map<Position, Position> parent = new HashMap<>();

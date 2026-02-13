@@ -91,7 +91,7 @@ public class SimulationMap {
         return true;
     }
 
-    public Position findPosition(Creature creature) {
-        return positionByEntity.get(creature);
+    public Position findPosition(Entity entity) {
+        return positionByEntity.get(entity);
     }
 }
