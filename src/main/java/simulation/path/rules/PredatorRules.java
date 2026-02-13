@@ -9,15 +9,13 @@ import simulation.map.SimulationMap;
 public class PredatorRules implements MoveRules {
 
     @Override
-    public boolean isGoal(Creature mover, Position p, SimulationMap map) {
+    public boolean isTarget(Creature mover, Position p, SimulationMap map) {
         Entity e = map.getAt(p);
         return e instanceof Herbivore;
     }
 
     @Override
     public boolean canEnter(Creature mover, Position p, SimulationMap map) {
-        Entity e = map.getAt(p);
-        // хищник может ходить по пустым клеткам и заходить на клетку с жертвой (для атаки)
-        return e == null || e instanceof Herbivore;
+        return map.getAt(p) == null;
     }
 }

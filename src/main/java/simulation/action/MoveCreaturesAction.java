@@ -7,6 +7,7 @@ import simulation.entities.movable.predator.Predator;
 import simulation.entities.statics.Grass;
 import simulation.map.Position;
 import simulation.map.SimulationMap;
+import simulation.path.NeighborsFinder;
 import simulation.path.PathFinder;
 import simulation.path.rules.MoveRules;
 import simulation.path.rules.MoveRulesProvider;
@@ -17,10 +18,12 @@ public class MoveCreaturesAction implements Action {
 
     private final PathFinder pathFinder;
     private final MoveRulesProvider provider;
+    private final NeighborsFinder neighbors;
 
-    public MoveCreaturesAction(PathFinder pathFinder, MoveRulesProvider provider) {
+    public MoveCreaturesAction(PathFinder pathFinder, MoveRulesProvider provider, NeighborsFinder neighbors) {
         this.pathFinder = pathFinder;
         this.provider = provider;
+        this.neighbors = neighbors;
     }
 
     @Override
@@ -33,77 +36,56 @@ public class MoveCreaturesAction implements Action {
                 continue; // могли убить раньше в этом же ходу
             }
 
-            MoveRules rules = rulesFor(creature);
+            MoveRules rules = provider.forCreature(creature);
 
-            // 1) Если цель рядом — взаимодействуем и НЕ двигаемся (ход потрачен)
-            Position goalNeighbor = findAdjacentGoal(from, creature, map, rules);
-            if (goalNeighbor != null) {
-                Entity target = map.getAt(goalNeighbor); // по идее не null, но пусть будет явно
+            Position targetNeighbor = findAdjacentTarget(from, creature, map, rules);
+            if (targetNeighbor != null) {
+                Entity target = map.getAt(targetNeighbor);
                 if (target != null) {
-                    handleGoalInteraction(creature, goalNeighbor, target, map);
+                    handleTargetInteraction(creature, targetNeighbor, target, map);
                 }
                 continue;
             }
 
-            // 2) Иначе — только движение (без атаки/еды в этом же ходу)
             for (int step = 0; step < creature.getSpeed(); step++) {
                 Position next = pathFinder.findNextStep(from, creature, map, rules);
                 if (next.equals(from)) {
-                    break; // нет пути / стоим
-                }
-
-                // Мы не заходим на занятые клетки (даже если это цель)
-                if (map.isOccupied(next)) {
-                    break;
+                    break; // нет пути
                 }
 
                 if (!map.move(creature, next)) {
-                    break;
+                    break; // кто то занял / вышли за границы и т д
                 }
                 from = next;
+
+                // когда дошли до цели, стоп. След ход будет взаимодействием
+                if (findAdjacentTarget(from, creature, map, rules) != null) {
+                    break;
+                }
             }
         }
     }
 
-    // 4-соседей проверяем на "цель"
-    private Position findAdjacentGoal(Position from, Creature creature, SimulationMap map, MoveRules rules) {
-        int x = from.x();
-        int y = from.y();
-
-        Position[] neighbors = {
-                new Position(x - 1, y),
-                new Position(x + 1, y),
-                new Position(x, y - 1),
-                new Position(x, y + 1)
-        };
-
-        for (Position p : neighbors) {
-            if (!map.isInside(p)) continue;
-            if (rules.isGoal(creature, p, map)) {
+    private Position findAdjacentTarget(Position from, Creature creature, SimulationMap map, MoveRules rules) {
+        for (Position p : neighbors.findNeighbors(from, map)) {
+            if (rules.isTarget(creature, p, map)) {
                 return p;
             }
         }
         return null;
     }
 
-
-    private void handleGoalInteraction(Creature creature, Position targetPos, Entity target, SimulationMap map) {
-        // Herbivore: съесть траву
+    private void handleTargetInteraction(Creature creature, Position targetPos, Entity target, SimulationMap map) {
         if (creature instanceof Herbivore && target instanceof Grass) {
             map.removeAt(targetPos);
             return;
         }
 
-        // Predator: атаковать травоядное (снижаем hp, если 0 - исчезает)
         if (creature instanceof Predator predator && target instanceof Herbivore prey) {
             prey.takeDamage(predator.getAttackPower());
             if (prey.isDead()) {
                 map.removeAt(targetPos);
             }
         }
-    }
-
-    private MoveRules rulesFor(Creature creature) {
-        return provider.forCreature(creature);
     }
 }

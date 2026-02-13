@@ -17,7 +17,9 @@ public class BreadthFirstSearch implements PathFinder {
 
     @Override
     public List<Position> findPath(Position from, Position to, Creature mover, SimulationMap map, MoveRules rules) {
-        if (from.equals(to)) return List.of(from);
+        if (from.equals(to)) {
+            return List.of(from);
+        }
 
         Queue<Position> q = new ArrayDeque<>();
         Set<Position> visited = new HashSet<>();
@@ -32,8 +34,13 @@ public class BreadthFirstSearch implements PathFinder {
             Position cur = q.poll();
 
             for (Position next : nf.findNeighbors(cur, map)) {
-                if (visited.contains(next)) continue;
-                if (!rules.canEnter(mover, next, map)) continue;
+                if (visited.contains(next)) {
+                    continue;
+                }
+
+                if (!rules.canEnter(mover, next, map)) {
+                    continue;
+                }
 
                 visited.add(next);
                 parent.put(next, cur);
@@ -47,19 +54,24 @@ public class BreadthFirstSearch implements PathFinder {
             }
         }
 
-        if (!found) return List.of();
+        if (!found) {
+            return List.of();
+        }
+
         return buildPath(from, to, parent);
     }
 
     @Override
     public Position findNextStep(Position start, Creature mover, SimulationMap map, MoveRules rules) {
-        List<Position> path = findPathToNearestGoal(start, mover, map, rules);
-        if (path.size() < 2) return start;
+        List<Position> path = findPathToNearestInteractionPosition(start, mover, map, rules);
+        if (path.size() < 2) {
+            return start;
+        }
+
         return path.get(1);
     }
 
-    // путь до ближайшей цели по rules.isGoal
-    public List<Position> findPathToNearestGoal(Position start, Creature mover, SimulationMap map, MoveRules rules) {
+    public List<Position> findPathToNearestInteractionPosition(Position start, Creature mover, SimulationMap map, MoveRules rules) {
         Queue<Position> q = new ArrayDeque<>();
         Set<Position> visited = new HashSet<>();
         Map<Position, Position> parent = new HashMap<>();
@@ -67,19 +79,24 @@ public class BreadthFirstSearch implements PathFinder {
         q.add(start);
         visited.add(start);
 
-        Position foundGoal = null;
+        Position found = null;
 
         while (!q.isEmpty()) {
             Position curr = q.poll();
 
-            if (!curr.equals(start) && rules.isGoal(mover, curr, map)) {
-                foundGoal = curr;
+            if (!curr.equals(start) && isAdjacentToTarget(curr, mover, map, rules)) {
+                found = curr;
                 break;
             }
 
             for (Position next : nf.findNeighbors(curr, map)) {
-                if (visited.contains(next)) continue;
-                if (!rules.canEnter(mover, next, map)) continue;
+                if (visited.contains(next)) {
+                    continue;
+                }
+
+                if (!rules.canEnter(mover, next, map)) {
+                    continue;
+                }
 
                 visited.add(next);
                 parent.put(next, curr);
@@ -87,8 +104,20 @@ public class BreadthFirstSearch implements PathFinder {
             }
         }
 
-        if (foundGoal == null) return List.of();
-        return buildPath(start, foundGoal, parent);
+        if (found == null) {
+            return List.of();
+        }
+
+        return buildPath(start, found, parent);
+    }
+
+    private boolean isAdjacentToTarget(Position p, Creature mover, SimulationMap map, MoveRules rules) {
+        for (Position n : nf.findNeighbors(p, map)) {
+            if (rules.isTarget(mover, n, map)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private List<Position> buildPath(Position start, Position goal, Map<Position, Position> parent) {

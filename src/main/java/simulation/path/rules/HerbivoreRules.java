@@ -9,15 +9,13 @@ import simulation.map.SimulationMap;
 public class HerbivoreRules implements MoveRules {
 
     @Override
-    public boolean isGoal(Creature mover, Position p, SimulationMap map) {
+    public boolean isTarget(Creature mover, Position p, SimulationMap map) {
         Entity e = map.getAt(p);
         return e instanceof Grass;
     }
 
     @Override
     public boolean canEnter(Creature mover, Position p, SimulationMap map) {
-        Entity e = map.getAt(p);
-        // травоядное может ходить по пустым клеткам и заходить на траву
-        return e == null || e instanceof Grass;
+        return map.getAt(p) == null;
     }
 }

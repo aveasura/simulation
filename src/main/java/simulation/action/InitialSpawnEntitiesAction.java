@@ -1,7 +1,7 @@
 package simulation.action;
 
 import simulation.entities.Entity;
-import simulation.factory.EntityType;
+import simulation.entities.EntityType;
 import simulation.factory.Factory;
 import simulation.map.Position;
 import simulation.map.SimulationMap;

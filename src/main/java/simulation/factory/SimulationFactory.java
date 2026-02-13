@@ -2,6 +2,7 @@ package simulation.factory;
 
 
 import simulation.entities.Entity;
+import simulation.entities.EntityType;
 import simulation.entities.movable.herbivore.Rabbit;
 import simulation.entities.movable.predator.Fox;
 import simulation.entities.statics.Grass;
