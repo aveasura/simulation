@@ -11,6 +11,7 @@ import java.util.Map;
 public class SimulationMap {
 
     private final Map<Position, Entity> map = new HashMap<>();
+    private final Map<Entity, Position> positionByEntity = new HashMap<>(); // O(1) findPosition
 
     private final int width;
     private final int height;
@@ -42,7 +43,10 @@ public class SimulationMap {
     }
 
     public void removeAt(Position position) {
-        map.remove(position);
+        Entity removed = map.remove(position);
+        if (removed != null) {
+            positionByEntity.remove(removed);
+        }
     }
 
     public List<Creature> getCreatures() {
@@ -63,10 +67,10 @@ public class SimulationMap {
             return false;
         }
         map.put(position, entity);
+        positionByEntity.put(entity, position);
         return true;
     }
 
-    // двигаем только в пустую клетку (атака/еда делается в Action)
     public boolean move(Creature creature, Position to) {
         if (!isInside(to)) {
             return false;
@@ -83,15 +87,11 @@ public class SimulationMap {
 
         map.remove(from);
         map.put(to, creature);
+        positionByEntity.put(creature, to);
         return true;
     }
 
-    public Position findPosition(Creature creature) {
-        for (Map.Entry<Position, Entity> entry : map.entrySet()) {
-            if (entry.getValue() == creature) {
-                return entry.getKey();
-            }
-        }
-        return null; // todo убрать null
+    public Position findPosition(Entity entity) {
+        return positionByEntity.get(entity);
     }
 }

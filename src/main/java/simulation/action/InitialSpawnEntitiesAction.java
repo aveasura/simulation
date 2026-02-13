@@ -1,7 +1,7 @@
 package simulation.action;
 
 import simulation.entities.Entity;
-import simulation.factory.EntityType;
+import simulation.entities.EntityType;
 import simulation.factory.Factory;
 import simulation.map.Position;
 import simulation.map.SimulationMap;
@@ -23,8 +23,6 @@ public class InitialSpawnEntitiesAction implements Action {
         spawnEntities(map);
     }
 
-    // TODO подумать над вариантом, что если isPlaced так и остался false? я просто молча теряю сущность.
-    //  log/считать, сколько не удалось поставить (чтобы понимать, что карта переполнена)
     private void spawnEntities(SimulationMap map) {
         final int maxTries = calculateMaxPlaceTries(map);
         EntityType[] types = EntityType.values();

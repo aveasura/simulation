@@ -2,6 +2,7 @@ package simulation.factory;
 
 
 import simulation.entities.Entity;
+import simulation.entities.EntityType;
 import simulation.entities.movable.herbivore.Rabbit;
 import simulation.entities.movable.predator.Fox;
 import simulation.entities.statics.Grass;
@@ -12,25 +13,12 @@ public class SimulationFactory implements Factory<Entity> {
 
     @Override
     public Entity create(EntityType type) {
-
-        switch (type) {
-            case FOX -> {
-                return new Fox();
-            }
-            case RABBIT -> {
-                return new Rabbit();
-            }
-            case GRASS -> {
-                return new Grass();
-            }
-            case TREE -> {
-                return new Tree();
-            }
-            case MOUNTAIN -> {
-                return new Mountain();
-            }
-        }
-
-        throw new IllegalArgumentException("Неизвестный type: " + type);
+        return switch (type) {
+            case FOX -> new Fox();
+            case RABBIT -> new Rabbit();
+            case GRASS -> new Grass();
+            case TREE -> new Tree();
+            case MOUNTAIN -> new Mountain();
+        };
     }
 }

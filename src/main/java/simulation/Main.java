@@ -24,7 +24,7 @@ public class Main {
         MoveRulesProvider provider = new DefaultMoveRulesProvider();
         int entityQuantity = 15;
         List<Action> init = List.of(new InitialSpawnEntitiesAction(factory, entityQuantity));
-        List<Action> turn = List.of(new MoveCreaturesAction(pathFinder, provider));
+        List<Action> turn = List.of(new MoveCreaturesAction(pathFinder, provider, neighborsFinder));
         Renderer renderer = new Renderer();
         Simulation game = new Simulation(map, init, turn, renderer);
 
