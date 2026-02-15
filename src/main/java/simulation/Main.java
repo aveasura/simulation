@@ -31,7 +31,6 @@ public class Main {
         ConsoleRenderer renderer = new ConsoleRenderer();
         Simulation game = new Simulation(map, init, turn, renderer);
         SimulationRunner app = new SimulationRunner(game);
-
         app.run(10, 500);
     }
 }
