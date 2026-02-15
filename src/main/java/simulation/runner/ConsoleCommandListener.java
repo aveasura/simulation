@@ -16,8 +16,6 @@ public class ConsoleCommandListener implements Runnable {
     @Override
     public void run() {
         Scanner sc = new Scanner(System.in);
-        output.println("Команды: p = пауза, c = продолжить, q = выход");
-
         while (true) {
             if (!sc.hasNextLine()) return;
 
@@ -27,15 +25,15 @@ public class ConsoleCommandListener implements Runnable {
                 case "p" -> runner.pause();
                 case "c" -> runner.resume();
                 case "q" -> {
-                    runner.stop();
+                    runner.stop(FinishReason.STOPPED_BY_USER);
                     return;
                 }
                 default -> output.println("""
-            Неправильный ввод, используй:
-            p = пауза
-            c = продолжить
-            q = выход
-            """);
+                        Неправильный ввод, используй:
+                        p = пауза
+                        c = продолжить
+                        q = выход
+                        """);
             }
         }
     }

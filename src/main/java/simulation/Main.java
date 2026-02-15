@@ -1,6 +1,7 @@
 package simulation;
 
 import simulation.runner.ConsoleCommandListener;
+import simulation.runner.FinishReason;
 import simulation.runner.SimulationRunner;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class Main {
             simThread.join();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            runner.stop();
+            runner.stop(FinishReason.INTERRUPTED);
         }
     }
 }

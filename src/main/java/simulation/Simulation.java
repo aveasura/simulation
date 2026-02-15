@@ -39,4 +39,8 @@ public class Simulation {
     public boolean shouldContinue() {
         return continueCondition.shouldContinue(map);
     }
+
+    public int getTick() {
+        return tick;
+    }
 }
