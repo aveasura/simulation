@@ -13,7 +13,7 @@ public class Main {
         AppContext app = SimulationComposition.createApp(cfg);
         SimulationRunner runner = app.runner();
 
-        Thread simThread = new Thread(() -> runner.run(20, cfg.getDelay()), "sim-thread");
+        Thread simThread = new Thread(() -> runner.run(cfg.getDelay()), "sim-thread");
         Thread cmdThread = new Thread(new ConsoleCommandListener(runner, app.output()), "cmd-thread");
         cmdThread.setDaemon(true);
 
