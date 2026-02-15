@@ -17,22 +17,24 @@ public class ConsoleCommandListener implements Runnable {
     public void run() {
         Scanner sc = new Scanner(System.in);
         while (true) {
-            if (!sc.hasNextLine()) return;
+            if (!sc.hasNextLine()) {
+                return;
+            }
 
             String input = sc.nextLine().trim().toLowerCase();
 
             switch (input) {
-                case "p" -> runner.pause();
-                case "c" -> runner.resume();
-                case "q" -> {
+                case "1" -> runner.pause();
+                case "2" -> runner.resume();
+                case "3" -> {
                     runner.stop(FinishReason.STOPPED_BY_USER);
                     return;
                 }
                 default -> output.println("""
                         Неправильный ввод, используй:
-                        p = пауза
-                        c = продолжить
-                        q = выход
+                        1 = пауза
+                        2 = продолжить
+                        3 = выход
                         """);
             }
         }

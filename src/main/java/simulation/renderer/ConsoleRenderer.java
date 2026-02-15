@@ -28,7 +28,7 @@ public class ConsoleRenderer implements Renderer {
             output.println("");
         }
         output.printf("Ход: %d%n", step);
-        output.println("p = пауза, c = продолжить, q = выход");
+        output.println("1 = пауза. 2 = продолжить. 3 = выход.");
         output.println("");
     }
 }
