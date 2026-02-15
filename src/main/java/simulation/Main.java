@@ -16,6 +16,7 @@ import simulation.renderer.ConsoleRenderer;
 import simulation.runner.SimulationRunner;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -31,6 +32,31 @@ public class Main {
         ConsoleRenderer renderer = new ConsoleRenderer();
         Simulation game = new Simulation(map, init, turn, renderer);
         SimulationRunner app = new SimulationRunner(game);
-        app.run(10, 500);
+
+        Thread simThread = new Thread(() -> app.run(20, 500), "sim-thread");
+        Thread cmdThread = new Thread(() -> {
+            Scanner sc = new Scanner(System.in);
+            while (true) {
+                System.out.println("p | c | q");
+                String input = sc.nextLine();
+                switch (input) {
+                    case "p" -> app.pause();
+                    case "c" -> app.resume();
+                    case "q" -> app.stop();
+                    default -> System.out.println("invalid input");
+                }
+            }
+        });
+
+        cmdThread.setDaemon(true);
+
+        simThread.start();
+        cmdThread.start();
+
+        try {
+            simThread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
