@@ -3,24 +3,30 @@ package simulation.renderer;
 import simulation.entities.Entity;
 import simulation.map.Position;
 import simulation.map.SimulationMap;
+import simulation.ui.ConsoleOutput;
 
 public class ConsoleRenderer implements Renderer {
     private static final String EMPTY_CELL = " • ";
+    private final ConsoleOutput output;
+
+    public ConsoleRenderer(ConsoleOutput output) {
+        this.output = output;
+    }
 
     @Override
     public void renderMap(SimulationMap map, int stepCounter) {
+        output.printf("Количество ходов: %d%n%n", stepCounter);
         for (int y = 0; y < map.getHeight(); y++) {
             for (int x = 0; x < map.getWidth(); x++) {
                 Position position = new Position(x, y);
                 if (map.isOccupied(position)) {
                     Entity entity = map.getAt(position);
-                    System.out.printf(" %s ", entity.type().symbol());
+                    output.printf(" %s ", entity.type().symbol());
                 } else {
-                    System.out.print(EMPTY_CELL);
+                    output.print(EMPTY_CELL);
                 }
             }
-            System.out.println();
+            output.println("");
         }
-        System.out.printf("Количество ходов: %d \n\n", stepCounter);
     }
 }

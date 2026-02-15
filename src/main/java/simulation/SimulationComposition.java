@@ -14,6 +14,8 @@ import simulation.path.rules.DefaultMoveRulesProvider;
 import simulation.path.rules.MoveRulesProvider;
 import simulation.renderer.ConsoleRenderer;
 import simulation.runner.SimulationRunner;
+import simulation.ui.ConsoleOutput;
+import simulation.ui.StdConsoleOutput;
 
 import java.util.List;
 
@@ -21,8 +23,8 @@ public final class SimulationComposition {
 
     private SimulationComposition() {}
 
-    public static SimulationRunner createRunner() {
-        SimulationMap map = new SimulationMap(10, 10);
+    public static AppContext createApp() {
+        SimulationMap map = new SimulationMap(3, 3);
         int entityQuantity = 15;
 
         Factory<Entity> factory = new SimulationFactory();
@@ -33,9 +35,11 @@ public final class SimulationComposition {
         List<Action> init = List.of(new InitialSpawnEntitiesAction(factory, entityQuantity));
         List<Action> turn = List.of(new MoveCreaturesAction(pathFinder, provider, neighborsFinder));
 
-        ConsoleRenderer renderer = new ConsoleRenderer();
+        ConsoleOutput output = new StdConsoleOutput();
+        ConsoleRenderer renderer = new ConsoleRenderer(output);
         Simulation game = new Simulation(map, init, turn, renderer);
+        SimulationRunner runner = new SimulationRunner(game);
 
-        return new SimulationRunner(game);
+        return new AppContext(runner, output);
     }
 }

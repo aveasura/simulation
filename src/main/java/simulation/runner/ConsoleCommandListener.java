@@ -1,18 +1,22 @@
 package simulation.runner;
 
+import simulation.ui.ConsoleOutput;
+
 import java.util.Scanner;
 
 public class ConsoleCommandListener implements Runnable {
     private final SimulationRunner runner;
+    private final ConsoleOutput output;
 
-    public ConsoleCommandListener(SimulationRunner runner) {
+    public ConsoleCommandListener(SimulationRunner runner, ConsoleOutput output) {
         this.runner = runner;
+        this.output = output;
     }
 
     @Override
     public void run() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Команды: p = пауза, c = продолжить, q = выход");
+        output.println("Команды: p = пауза, c = продолжить, q = выход");
 
         while (true) {
             if (!sc.hasNextLine()) return;
@@ -26,7 +30,7 @@ public class ConsoleCommandListener implements Runnable {
                     runner.stop();
                     return;
                 }
-                default -> System.out.println("""
+                default -> output.println("""
             Неправильный ввод, используй:
             p = пауза
             c = продолжить

@@ -5,10 +5,11 @@ import simulation.runner.SimulationRunner;
 
 public class Main {
     public static void main(String[] args) {
-        SimulationRunner runner = SimulationComposition.createRunner();
+        AppContext app = SimulationComposition.createApp();
+        SimulationRunner runner = app.runner();
 
         Thread simThread = new Thread(() -> runner.run(20, 500), "sim-thread");
-        Thread cmdThread = new Thread(new ConsoleCommandListener(runner), "cmd-thread");
+        Thread cmdThread = new Thread(new ConsoleCommandListener(runner, app.output()), "cmd-thread");
         cmdThread.setDaemon(true);
 
         simThread.start();
