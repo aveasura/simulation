@@ -14,12 +14,12 @@ public class SimulationRunner {
         this.simulation = simulation;
     }
 
-    public void run(int maxSteps, long delay) {
+    public void run(long delay) {
         simulation.initSimulation();
         running = true;
         state = State.RUNNING;
 
-        while (running && simulation.getStep() < maxSteps) {
+        while (running && simulation.shouldContinue()) {
             waitIfPaused();
             if (!running || state == State.STOPPED) {
                 break;

@@ -37,7 +37,8 @@ public final class SimulationComposition {
 
         ConsoleOutput output = new StdConsoleOutput();
         ConsoleRenderer renderer = new ConsoleRenderer(output);
-        Simulation game = new Simulation(map, init, turn, renderer);
+        ContinueCondition condition = new ReachableTargetCondition(pathFinder, provider, neighborsFinder);
+        Simulation game = new Simulation(map, init, turn, renderer, condition);
         SimulationRunner runner = new SimulationRunner(game);
 
         return new AppContext(runner, output);

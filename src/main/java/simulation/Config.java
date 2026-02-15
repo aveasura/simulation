@@ -22,8 +22,7 @@ public class Config {
         delay = readInt(props,"delay", delay, 500, 5000);
 
         int maxByCells = width * height;
-        int maxQuantity = Math.min(30, maxByCells);
-        quantity = readInt(props, "quantity", quantity, 3, maxQuantity);
+        quantity = readInt(props, "quantity", quantity, 3, maxByCells);
     }
 
     private static int readInt(Properties props, String key, int def, int min, int max) {
