@@ -6,18 +6,24 @@ public class SimulationRunner {
 
     private volatile boolean running = false;
     private volatile State state = State.STOPPED;
+    private volatile FinishReason finishReason = FinishReason.COMPLETED;
     private final Object lock = new Object();
 
     private final Simulation simulation;
+    private final SimulationLifecycleListener lifecycleListener;
 
-    public SimulationRunner(Simulation simulation) {
+    public SimulationRunner(Simulation simulation, SimulationLifecycleListener lifecycleListener) {
         this.simulation = simulation;
+        this.lifecycleListener = lifecycleListener;
     }
 
     public void run(long delay) {
         simulation.initSimulation();
         running = true;
         state = State.RUNNING;
+        finishReason = FinishReason.COMPLETED;
+
+        lifecycleListener.onSimulationStarted();
 
         while (running && simulation.shouldContinue()) {
             waitIfPaused();
@@ -31,12 +37,14 @@ public class SimulationRunner {
                 Thread.sleep(delay);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                stop();
+                stop(FinishReason.INTERRUPTED);
             }
         }
 
         running = false;
         state = State.STOPPED;
+
+        lifecycleListener.onSimulationFinished(finishReason, simulation.getTick());
     }
 
     public void pause() {
@@ -54,16 +62,13 @@ public class SimulationRunner {
         }
     }
 
-    public void stop() {
+    public void stop(FinishReason reason) {
         synchronized (lock) {
             running = false;
             state = State.STOPPED;
+            finishReason = reason;
             lock.notifyAll();
         }
-    }
-
-    public boolean isRunning() {
-        return running;
     }
 
     private void waitIfPaused() {
@@ -75,6 +80,7 @@ public class SimulationRunner {
                     Thread.currentThread().interrupt();
                     running = false;
                     state = State.STOPPED;
+                    finishReason = FinishReason.INTERRUPTED;
                     return;
                 }
             }
