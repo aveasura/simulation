@@ -1,7 +1,6 @@
 package simulation.runner;
 
 import simulation.Simulation;
-import simulation.State;
 
 public class SimulationRunner {
 

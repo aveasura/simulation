@@ -1,4 +1,4 @@
-package simulation;
+package simulation.runner;
 
 public enum State {
     RUNNING,
