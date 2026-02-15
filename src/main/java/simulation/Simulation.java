@@ -2,6 +2,7 @@ package simulation;
 
 import simulation.action.Action;
 import simulation.map.SimulationMap;
+import simulation.renderer.Renderer;
 
 import java.util.List;
 

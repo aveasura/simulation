@@ -38,4 +38,8 @@ public abstract class Creature extends Entity {
     public int getSpeed() {
         return speed;
     }
+
+    public int getHp() {
+        return hp;
+    }
 }

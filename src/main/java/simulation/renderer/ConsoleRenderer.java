@@ -1,12 +1,13 @@
-package simulation;
+package simulation.renderer;
 
 import simulation.entities.Entity;
 import simulation.map.Position;
 import simulation.map.SimulationMap;
 
-public class Renderer {
+public class ConsoleRenderer implements Renderer {
     private static final String EMPTY_CELL = " • ";
 
+    @Override
     public void renderMap(SimulationMap map, int stepCounter) {
         for (int y = 0; y < map.getHeight(); y++) {
             for (int x = 0; x < map.getWidth(); x++) {
@@ -15,7 +16,7 @@ public class Renderer {
                     Entity entity = map.getAt(position);
                     System.out.printf(" %s ", entity.type().symbol());
                 } else {
-                    System.out.printf(EMPTY_CELL);
+                    System.out.print(EMPTY_CELL);
                 }
             }
             System.out.println();

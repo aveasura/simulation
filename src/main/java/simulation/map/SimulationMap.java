@@ -2,6 +2,7 @@ package simulation.map;
 
 import simulation.entities.Entity;
 import simulation.entities.movable.Creature;
+import simulation.entities.statics.StaticEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,6 +50,10 @@ public class SimulationMap {
         }
     }
 
+    public List<Entity> getEntities() {
+        return new ArrayList<>(map.values());
+    }
+
     public List<Creature> getCreatures() {
         List<Creature> creatures = new ArrayList<>();
         for (Entity e : map.values()) {
@@ -57,6 +62,16 @@ public class SimulationMap {
             }
         }
         return creatures;
+    }
+
+    public List<StaticEntity> getStaticEntities() {
+        List<StaticEntity> staticEntities = new ArrayList<>();
+        for (Entity e : map.values()) {
+            if (e instanceof StaticEntity s) {
+                staticEntities.add(s);
+            }
+        }
+        return staticEntities;
     }
 
     public boolean place(Position position, Entity entity) {

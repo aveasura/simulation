@@ -12,6 +12,7 @@ import simulation.path.NeighborsFinder;
 import simulation.path.PathFinder;
 import simulation.path.rules.DefaultMoveRulesProvider;
 import simulation.path.rules.MoveRulesProvider;
+import simulation.renderer.ConsoleRenderer;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class Main {
         int entityQuantity = 15;
         List<Action> init = List.of(new InitialSpawnEntitiesAction(factory, entityQuantity));
         List<Action> turn = List.of(new MoveCreaturesAction(pathFinder, provider, neighborsFinder));
-        Renderer renderer = new Renderer();
+        ConsoleRenderer renderer = new ConsoleRenderer();
         Simulation game = new Simulation(map, init, turn, renderer);
 
         game.startSimulation();
