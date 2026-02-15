@@ -24,8 +24,8 @@ public final class SimulationComposition {
     private SimulationComposition() {}
 
     public static AppContext createApp() {
-        SimulationMap map = new SimulationMap(3, 3);
-        int entityQuantity = 15;
+        SimulationMap map = new SimulationMap(12, 12);
+        int entityQuantity = 12;
 
         Factory<Entity> factory = new SimulationFactory();
         NeighborsFinder neighborsFinder = new NeighborsFinder();
