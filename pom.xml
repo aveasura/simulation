@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.simulation</groupId>
-    <artifactId>simulation-console</artifactId>
+    <artifactId>simulation</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
