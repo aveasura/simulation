@@ -20,7 +20,9 @@ public class MoveEntityAction implements Actions {
     }
 
     @Override
-    public void execute(GameMap gameMap) {
+    public boolean execute(GameMap gameMap) {
+        boolean turnHadChanges = false;
+
         Map<Position, Entity> snapshot = new HashMap<>(gameMap.getEntities());
 
         for (Map.Entry<Position, Entity> entry : snapshot.entrySet()) {
@@ -46,8 +48,13 @@ public class MoveEntityAction implements Actions {
 
                 List<Position> path = pathFinder.find(gameMap, currentPosition, isTarget, canStep);
 
-                creature.makeMove(gameMap, currentPosition, path);
+                boolean changed = creature.makeMove(gameMap, currentPosition, path);
+                if (changed) {
+                    turnHadChanges = true;
+                }
             }
         }
+
+        return turnHadChanges;
     }
 }

@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class GameMap {
 
-    private static final int WIDTH = 5;
-    private static final int HEIGHT = 5;
+    private static final int WIDTH = 10;
+    private static final int HEIGHT = 10;
 
     private final Map<Position, Entity> entities = new HashMap<>();
 
@@ -55,9 +55,8 @@ public class GameMap {
         return entities.containsKey(position);
     }
 
-    // todo
-    public boolean isFinished() {
-        return false;
+    public int getEntitiesCount() {
+        return entities.size();
     }
 
     public int getHeight() {
@@ -66,5 +65,9 @@ public class GameMap {
 
     public int getWidth() {
         return WIDTH;
+    }
+
+    public int getMapArea() {
+        return WIDTH * HEIGHT;
     }
 }

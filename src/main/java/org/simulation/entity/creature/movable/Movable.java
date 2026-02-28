@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface Movable {
 
-    void makeMove(GameMap gameMap, Position from, List<Position> path);
+    boolean makeMove(GameMap gameMap, Position from, List<Position> path);
 }

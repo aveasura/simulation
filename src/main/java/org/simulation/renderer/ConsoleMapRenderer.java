@@ -6,11 +6,13 @@ import org.simulation.game.Position;
 
 import java.util.Map;
 
-public class ConsoleRenderer implements Renderer {
+public class ConsoleMapRenderer implements MapRenderer {
 
     @Override
-    public void render(GameMap gameMap) {
+    public void render(GameMap gameMap, int step) {
         Map<Position, Entity> entities = gameMap.getEntities();
+        // todo SRP ConsoleOutput для sout?
+        System.out.println("ход: " + step);
         for (int height = 0; height < gameMap.getHeight(); height++) {
             for (int width = 0; width < gameMap.getWidth(); width++) {
                 Position position = new Position(width, height);

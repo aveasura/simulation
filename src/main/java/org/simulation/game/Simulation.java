@@ -1,41 +1,57 @@
 package org.simulation.game;
 
 import org.simulation.action.Actions;
-import org.simulation.renderer.Renderer;
+import org.simulation.renderer.MapRenderer;
+import org.simulation.sleeper.Sleeper;
+
+import java.util.List;
 
 public class Simulation {
 
+    private boolean running = true;
     private int step = 0;
 
     private final GameMap gameMap;
-    private final Actions initial;
-    private final Actions turn;
-    private final Renderer renderer;
+    private final List<Actions> initialActions;
+    private final List<Actions> turnActions;
+    private final MapRenderer mapRenderer;
+    private final SimulationEndCondition endCondition;
+    private final Sleeper sleeper;
 
-    public Simulation(GameMap gameMap, Actions initial, Actions turn, Renderer renderer) {
+    public Simulation(GameMap gameMap,
+                      List<Actions> initialActions,
+                      List<Actions> turnActions,
+                      MapRenderer mapRenderer,
+                      SimulationEndCondition endCondition,
+                      Sleeper sleeper) {
         this.gameMap = gameMap;
-        this.initial = initial;
-        this.turn = turn;
-        this.renderer = renderer;
+        this.initialActions = initialActions;
+        this.turnActions = turnActions;
+        this.mapRenderer = mapRenderer;
+        this.endCondition = endCondition;
+        this.sleeper = sleeper;
     }
 
-    // Запустить бесконечный цикл симуляции и рендеринга
-    // todo while !game.isFinished()
     public void startSimulation() {
-        initial.execute(gameMap);
+        executeActions(initialActions);
 
-        renderer.render(gameMap);
-
-        while (true) {
+        while (running) {
             nextTurn();
-            sleep(600);
         }
     }
 
-    // Просимулировать и отрендерить один ход
     public void nextTurn() {
-        turn.execute(gameMap);
-        renderer.render(gameMap);
+        mapRenderer.render(gameMap, step);
+
+        boolean turnHadChanged = executeActions(turnActions);
+
+        step++;
+        sleeper.sleep(1500);
+
+        if (endCondition.isFinished(gameMap, turnHadChanged)) {
+            mapRenderer.render(gameMap, step);
+            running = false;
+        }
     }
 
     // todo добавить поток
@@ -43,11 +59,10 @@ public class Simulation {
 
     }
 
-    private void sleep(int ms) {
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+    private boolean executeActions(List<Actions> actions) {
+        for (Actions action : actions) {
+            return action.execute(gameMap);
         }
+        return false;
     }
 }

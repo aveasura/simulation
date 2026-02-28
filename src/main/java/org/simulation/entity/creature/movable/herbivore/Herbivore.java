@@ -2,7 +2,7 @@ package org.simulation.entity.creature.movable.herbivore;
 
 import org.simulation.entity.Entity;
 import org.simulation.entity.creature.Creature;
-import org.simulation.entity.field.Grass;
+import org.simulation.entity.immovable.Grass;
 import org.simulation.game.GameMap;
 import org.simulation.game.Position;
 

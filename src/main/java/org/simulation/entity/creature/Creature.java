@@ -8,8 +8,9 @@ import org.simulation.game.Position;
 import java.util.List;
 
 public abstract class Creature extends Entity implements Movable {
-    protected final int speed;
-    protected int healthPoint;
+
+    private final int speed;
+    private int healthPoint;
 
     protected Creature(int speed, int healthPoint) {
         this.speed = speed;
@@ -17,9 +18,9 @@ public abstract class Creature extends Entity implements Movable {
     }
 
     @Override
-    public void makeMove(GameMap gameMap, Position from, List<Position> path) {
-        if (path.isEmpty()) {
-            return;
+    public boolean makeMove(GameMap gameMap, Position from, List<Position> path) {
+        if (!hasStepToMake(path)) {
+            return false;
         }
 
         int stepIndex = Math.min(this.speed, path.size() - 1);
@@ -29,10 +30,14 @@ public abstract class Creature extends Entity implements Movable {
         if (destination.equals(finalTarget) && gameMap.isOccupied(finalTarget)) {
             Entity entityTarget = gameMap.getAt(finalTarget);
             interactWithTarget(gameMap, finalTarget, entityTarget);
-            return;
+
+            // По правилам симуляции существо взаимодействует с целью,
+            // но не занимает освободившуюся клетку в этот же ход.
+            return true;
         }
 
         gameMap.move(from, destination);
+        return true;
     }
 
     public void takeDamage(int attackDamage) {
@@ -50,4 +55,8 @@ public abstract class Creature extends Entity implements Movable {
     public abstract boolean isFood(Entity entity);
 
     protected abstract void interactWithTarget(GameMap gameMap, Position finalTarget, Entity entityTarget);
+
+    private boolean hasStepToMake(List<Position> path) {
+        return path.size() > 1;
+    }
 }

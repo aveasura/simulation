@@ -4,9 +4,9 @@ import org.simulation.entity.EntityType;
 import org.simulation.entity.Entity;
 import org.simulation.entity.creature.movable.herbivore.Rabbit;
 import org.simulation.entity.creature.movable.predator.Fox;
-import org.simulation.entity.field.Grass;
-import org.simulation.entity.field.Mountain;
-import org.simulation.entity.field.Tree;
+import org.simulation.entity.immovable.Grass;
+import org.simulation.entity.immovable.Mountain;
+import org.simulation.entity.immovable.Tree;
 
 public class EntityFactory implements Factory<Entity> {
 

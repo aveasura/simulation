@@ -1,4 +1,4 @@
-package org.simulation.entity.field;
+package org.simulation.entity.immovable;
 
 import org.simulation.entity.Entity;
 
