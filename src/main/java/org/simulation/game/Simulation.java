@@ -60,9 +60,15 @@ public class Simulation {
     }
 
     private boolean executeActions(List<Actions> actions) {
+        boolean hadChanges = false;
+
         for (Actions action : actions) {
-            return action.execute(gameMap);
+            boolean changed = action.execute(gameMap);
+            if (changed) {
+                hadChanges = true;
+            }
         }
-        return false;
+
+        return hadChanges;
     }
 }

@@ -2,6 +2,8 @@ package org.simulation;
 
 import org.simulation.action.Actions;
 import org.simulation.action.MoveEntityAction;
+import org.simulation.action.RandomFreePositionGenerator;
+import org.simulation.action.RespawnEntitiesAction;
 import org.simulation.action.SpawnInitialEntitiesAction;
 import org.simulation.entity.Entity;
 import org.simulation.factory.EntityFactory;
@@ -10,9 +12,9 @@ import org.simulation.game.GameMap;
 import org.simulation.game.Simulation;
 import org.simulation.game.SimulationEndCondition;
 import org.simulation.path.BfsPathFinder;
+import org.simulation.path.PathFinder;
 import org.simulation.path.neighbor.NeighborFinder;
 import org.simulation.path.neighbor.NeighborFinderFourDirs;
-import org.simulation.path.PathFinder;
 import org.simulation.renderer.ConsoleMapRenderer;
 import org.simulation.renderer.MapRenderer;
 import org.simulation.sleeper.Sleeper;
@@ -30,8 +32,10 @@ public class Main {
         Factory<Entity> factory = new EntityFactory();
         Random random = new Random();
 
-        List<Actions> initialActions = List.of(new SpawnInitialEntitiesAction(factory, random));
-        List<Actions> turnActions = List.of(new MoveEntityAction(pathFinder));
+        RandomFreePositionGenerator positionGenerator = new RandomFreePositionGenerator(random);
+        SpawnInitialEntitiesAction spawnInitialEntitiesAction = new SpawnInitialEntitiesAction(factory, positionGenerator);
+        List<Actions> initialActions = List.of(spawnInitialEntitiesAction);
+        List<Actions> turnActions = List.of(new MoveEntityAction(pathFinder), new RespawnEntitiesAction(positionGenerator, factory));
 
 
         SimulationEndCondition endCondition = new SimulationEndCondition();
