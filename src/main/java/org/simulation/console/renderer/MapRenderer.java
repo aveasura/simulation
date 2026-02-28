@@ -1,4 +1,4 @@
-package org.simulation.renderer;
+package org.simulation.console.renderer;
 
 import org.simulation.game.GameMap;
 

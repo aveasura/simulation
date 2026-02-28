@@ -1,7 +1,7 @@
 package org.simulation.game;
 
 import org.simulation.action.Actions;
-import org.simulation.renderer.MapRenderer;
+import org.simulation.console.renderer.MapRenderer;
 import org.simulation.sleeper.Sleeper;
 
 import java.util.List;
