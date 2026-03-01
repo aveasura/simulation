@@ -4,7 +4,7 @@ import org.simulation.console.Output;
 
 import java.util.Objects;
 
-public class ConsoleControlsHintRenderer implements HintRenderer {
+public class ConsoleControlHintRenderer implements HintRenderer {
 
     private static final String CONTROLS_HINTS = """
             1. Приостановить симуляцию
@@ -14,7 +14,7 @@ public class ConsoleControlsHintRenderer implements HintRenderer {
 
     private final Output output;
 
-    public ConsoleControlsHintRenderer(Output output) {
+    public ConsoleControlHintRenderer(Output output) {
         this.output = Objects.requireNonNull(output, " must not be null");
     }
 

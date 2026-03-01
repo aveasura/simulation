@@ -8,7 +8,7 @@ import org.simulation.console.InputProvider;
 import org.simulation.console.Menu;
 import org.simulation.console.Output;
 import org.simulation.console.renderer.ConsoleControlMenuRenderer;
-import org.simulation.console.renderer.ConsoleControlsHintRenderer;
+import org.simulation.console.renderer.ConsoleControlHintRenderer;
 import org.simulation.console.renderer.ConsoleMainMenuRenderer;
 import org.simulation.console.renderer.ConsoleMapRenderer;
 import org.simulation.console.renderer.ControlMenuRenderer;
@@ -38,7 +38,7 @@ public class Main {
         MapRenderer mapRenderer = new ConsoleMapRenderer(output);
         EntityFactory entityFactory = new EntityFactoryImpl();
         NeighborFinder neighborFinder = new NeighborFinderFourDirs();
-        HintRenderer hintRenderer = new ConsoleControlsHintRenderer(output);
+        HintRenderer hintRenderer = new ConsoleControlHintRenderer(output);
         SimulationMapConfig simulationMapConfig = new SimulationMapConfig(DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT);
         SimulationFactory simulationFactory
                 = new SimulationFactoryImpl(simulationMapConfig, mapRenderer, hintRenderer, entityFactory, neighborFinder);
