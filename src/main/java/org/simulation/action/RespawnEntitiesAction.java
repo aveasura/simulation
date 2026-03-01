@@ -5,7 +5,7 @@ import org.simulation.entity.EntityType;
 import org.simulation.entity.creature.movable.herbivore.Herbivore;
 import org.simulation.entity.creature.movable.predator.Predator;
 import org.simulation.entity.immovable.Grass;
-import org.simulation.factory.Factory;
+import org.simulation.factory.EntityFactory;
 import org.simulation.game.GameMap;
 import org.simulation.game.Position;
 
@@ -19,11 +19,11 @@ public class RespawnEntitiesAction implements Actions {
     private static final int MIN_GRASS_COUNT = 6;
 
     private final RandomFreePositionGenerator positionGenerator;
-    private final Factory<Entity> factory;
+    private final EntityFactory entityFactory;
 
-    public RespawnEntitiesAction(RandomFreePositionGenerator positionGenerator, Factory<Entity> factory) {
+    public RespawnEntitiesAction(RandomFreePositionGenerator positionGenerator, EntityFactory entityFactory) {
         this.positionGenerator = positionGenerator;
-        this.factory = factory;
+        this.entityFactory = entityFactory;
     }
 
     @Override
@@ -72,7 +72,7 @@ public class RespawnEntitiesAction implements Actions {
 
     private void addEntities(List<Entity> target, EntityType type, int count) {
         for (int i = 0; i < count; i++) {
-            Entity entity = factory.create(type);
+            Entity entity = entityFactory.create(type);
             target.add(entity);
         }
     }
