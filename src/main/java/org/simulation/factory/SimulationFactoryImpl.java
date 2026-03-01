@@ -14,9 +14,10 @@ import org.simulation.path.BfsPathFinder;
 import org.simulation.path.PathFinder;
 import org.simulation.path.neighbor.NeighborFinder;
 import org.simulation.sleeper.Sleeper;
-import org.simulation.sleeper.SleeperImpl;
+import org.simulation.sleeper.ThreadSleeper;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class SimulationFactoryImpl implements SimulationFactory {
@@ -30,10 +31,10 @@ public class SimulationFactoryImpl implements SimulationFactory {
                                  HintRenderer hintRenderer,
                                  EntityFactory entityFactory,
                                  NeighborFinder neighborFinder) {
-        this.mapRenderer = mapRenderer;
-        this.hintRenderer = hintRenderer;
-        this.entityFactory = entityFactory;
-        this.neighborFinder = neighborFinder;
+        this.mapRenderer = Objects.requireNonNull(mapRenderer, "mapRenderer must not be null");
+        this.hintRenderer = Objects.requireNonNull(hintRenderer, "hintRenderer must not be null");
+        this.entityFactory = Objects.requireNonNull(entityFactory, "entityFactory must not be null");
+        this.neighborFinder = Objects.requireNonNull(neighborFinder, "neighborFinder must not be null");
     }
 
     @Override
@@ -51,7 +52,7 @@ public class SimulationFactoryImpl implements SimulationFactory {
         List<Actions> turnActions = List.of(moveEntityAction, respawnEntitiesAction);
 
         SimulationEndCondition endCondition = new SimulationEndCondition();
-        Sleeper sleeper = new SleeperImpl();
+        Sleeper sleeper = new ThreadSleeper();
 
         return new Simulation(
                 gameMap,

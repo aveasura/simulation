@@ -2,6 +2,8 @@ package org.simulation.console.renderer;
 
 import org.simulation.console.Output;
 
+import java.util.Objects;
+
 public class ConsoleMainMenuRenderer implements MainMenuRenderer {
 
     private static final String MAIN_MENU = """
@@ -18,17 +20,20 @@ public class ConsoleMainMenuRenderer implements MainMenuRenderer {
             - На каждом ходу существа перемещаются и взаимодействуют друг с другом.
             - Если количество некоторых сущностей падает ниже заданного минимума,
               они автоматически появляются снова.
+            
+            - Вы можете ставить симуляцию на паузу, возобновлять и полностью завершать.
 
             Симуляция завершается, если:
             1. Исчезает один из ключевых типов сущностей
                (хищники, травоядные или трава).
-            2. За полный ход на карте не произошло ни одного изменения.
+            2. За полный ход на карте не произошло ни одного изменения
+            3. Симуляция завершена пользователем.
             """;
 
     private final Output output;
 
     public ConsoleMainMenuRenderer(Output output) {
-        this.output = output;
+        this.output = Objects.requireNonNull(output, "output must not be null");
     }
 
     @Override
@@ -48,6 +53,6 @@ public class ConsoleMainMenuRenderer implements MainMenuRenderer {
 
     @Override
     public void printInvalidChoice() {
-        output.println("Выберите цифру из доступных");
+        output.println("Неправильный ввод: выберите и введите цифру из предложенных в главном меню");
     }
 }

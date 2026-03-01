@@ -6,6 +6,7 @@ import org.simulation.console.renderer.MapRenderer;
 import org.simulation.sleeper.Sleeper;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Simulation {
 
@@ -29,13 +30,14 @@ public class Simulation {
                       HintRenderer hintRenderer,
                       SimulationEndCondition endCondition,
                       Sleeper sleeper) {
-        this.gameMap = gameMap;
-        this.initialActions = initialActions;
-        this.turnActions = turnActions;
-        this.mapRenderer = mapRenderer;
-        this.hintRenderer = hintRenderer;
-        this.endCondition = endCondition;
-        this.sleeper = sleeper;
+
+        this.gameMap = Objects.requireNonNull(gameMap, "gameMap must not be null");
+        this.initialActions = Objects.requireNonNull(initialActions, "initialActions must not be null");
+        this.turnActions = Objects.requireNonNull(turnActions, "turnActions must not be null");
+        this.mapRenderer = Objects.requireNonNull(mapRenderer, "mapRenderer must not be null");
+        this.hintRenderer = Objects.requireNonNull(hintRenderer, "hintRenderer must not be null");
+        this.endCondition = Objects.requireNonNull(endCondition, "endCondition must not be null");
+        this.sleeper = Objects.requireNonNull(sleeper, "sleeper must not be null");
     }
 
     public void startSimulation() {
@@ -68,19 +70,6 @@ public class Simulation {
         }
     }
 
-    private boolean executeActions(List<Actions> actions) {
-        boolean hadChanges = false;
-
-        for (Actions action : actions) {
-            boolean changed = action.execute(gameMap);
-            if (changed) {
-                hadChanges = true;
-            }
-        }
-
-        return hadChanges;
-    }
-
     public void pauseSimulation() {
         isPaused = true;
     }
@@ -92,5 +81,18 @@ public class Simulation {
     public void stopSimulation() {
         running = false;
         isPaused = false;
+    }
+
+    private boolean executeActions(List<Actions> actions) {
+        boolean hadChanges = false;
+
+        for (Actions action : actions) {
+            boolean changed = action.execute(gameMap);
+            if (changed) {
+                hadChanges = true;
+            }
+        }
+
+        return hadChanges;
     }
 }

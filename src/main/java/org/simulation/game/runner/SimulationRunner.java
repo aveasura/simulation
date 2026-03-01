@@ -3,6 +3,8 @@ package org.simulation.game.runner;
 import org.simulation.factory.SimulationFactory;
 import org.simulation.game.Simulation;
 
+import java.util.Objects;
+
 public class SimulationRunner implements Runner {
 
     private final SimulationFactory factory;
@@ -10,7 +12,7 @@ public class SimulationRunner implements Runner {
     private Thread simulationThread;
 
     public SimulationRunner(SimulationFactory factory) {
-        this.factory = factory;
+        this.factory = Objects.requireNonNull(factory, "factory must not be null");
     }
 
     @Override

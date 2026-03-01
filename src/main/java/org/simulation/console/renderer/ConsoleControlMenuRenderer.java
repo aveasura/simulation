@@ -2,12 +2,14 @@ package org.simulation.console.renderer;
 
 import org.simulation.console.Output;
 
+import java.util.Objects;
+
 public class ConsoleControlMenuRenderer implements ControlMenuRenderer {
 
     private final Output output;
 
     public ConsoleControlMenuRenderer(Output output) {
-        this.output = output;
+        this.output = Objects.requireNonNull(output, "output must not be null");
     }
 
     @Override
@@ -22,11 +24,11 @@ public class ConsoleControlMenuRenderer implements ControlMenuRenderer {
 
     @Override
     public void printStopped() {
-        output.println("Симуляция остановлена пользователем.");
+        output.println("Симуляция завершена пользователем.");
     }
 
     @Override
     public void printInvalidChoice() {
-        output.println("Выберите цифру из предложенных");
+        output.println("Выберите и введите цифру из предложенных");
     }
 }

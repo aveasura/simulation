@@ -3,6 +3,8 @@ package org.simulation.console;
 import org.simulation.game.runner.Runner;
 import org.simulation.console.renderer.MainMenuRenderer;
 
+import java.util.Objects;
+
 public class ConsoleMainMenu implements Menu {
 
     private static final String READ_RULES = "1";
@@ -18,10 +20,10 @@ public class ConsoleMainMenu implements Menu {
                            Menu controlMenu,
                            MainMenuRenderer mainMenuRenderer,
                            InputProvider inputProvider) {
-        this.runner = runner;
-        this.controlMenu = controlMenu;
-        this.mainMenuRenderer = mainMenuRenderer;
-        this.inputProvider = inputProvider;
+        this.runner = Objects.requireNonNull(runner, "runner must not be null");
+        this.controlMenu = Objects.requireNonNull(controlMenu, "controlMenu must not be null");
+        this.mainMenuRenderer = Objects.requireNonNull(mainMenuRenderer, "mainMenuRenderer must not be null");
+        this.inputProvider = Objects.requireNonNull(inputProvider, "inputProvider must not be null");
     }
 
     public void start() {
