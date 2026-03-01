@@ -24,11 +24,11 @@ public class ConsoleControlMenuRenderer implements ControlMenuRenderer {
 
     @Override
     public void printStopped() {
-        output.println("Симуляция остановлена пользователем.");
+        output.println("Симуляция завершена пользователем.");
     }
 
     @Override
     public void printInvalidChoice() {
-        output.println("Выберите цифру из предложенных");
+        output.println("Выберите и введите цифру из предложенных");
     }
 }

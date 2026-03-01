@@ -1,5 +1,7 @@
 package org.simulation.entity.creature.movable.predator;
 
+import org.simulation.entity.EntityType;
+
 public class Fox extends Predator {
 
     // дефолтные статы лисы, можно вынести в конфиг
@@ -8,6 +10,6 @@ public class Fox extends Predator {
     private static final int DEFAULT_ATTACK_DAMAGE = 1;
 
     public Fox() {
-        super(DEFAULT_SPEED, DEFAULT_HEALTH_POINT, DEFAULT_ATTACK_DAMAGE);
+        super(EntityType.FOX, DEFAULT_SPEED, DEFAULT_HEALTH_POINT, DEFAULT_ATTACK_DAMAGE);
     }
 }

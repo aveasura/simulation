@@ -1,6 +1,7 @@
 package org.simulation.entity.creature;
 
 import org.simulation.entity.Entity;
+import org.simulation.entity.EntityType;
 import org.simulation.entity.creature.movable.Movable;
 import org.simulation.game.GameMap;
 import org.simulation.game.Position;
@@ -12,7 +13,8 @@ public abstract class Creature extends Entity implements Movable {
     private final int speed;
     private int healthPoint;
 
-    protected Creature(int speed, int healthPoint) {
+    protected Creature(EntityType type, int speed, int healthPoint) {
+        super(type);
         this.speed = speed;
         this.healthPoint = healthPoint;
     }
