@@ -11,4 +11,6 @@ public interface ControlMenuRenderer {
     void printInvalidChoice();
 
     void printInputClosed();
+
+    void printFinished();
 }

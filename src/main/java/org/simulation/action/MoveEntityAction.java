@@ -24,7 +24,7 @@ public class MoveEntityAction implements Action {
     public boolean execute(GameMap gameMap) {
         boolean turnHadChanges = false;
 
-        Map<Position, Entity> snapshot = new HashMap<>(gameMap.getEntities());
+        Map<Position, Entity> snapshot = gameMap.getEntities();
 
         for (Map.Entry<Position, Entity> entry : snapshot.entrySet()) {
             Position currentPosition = entry.getKey();

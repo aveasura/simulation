@@ -27,7 +27,18 @@ public class ConsoleControlMenu implements Menu {
     public void start() {
         try {
             while (true) {
+                if (!runner.isRunning()) {
+                    renderer.printFinished();
+                    return;
+                }
+
                 String choice = provider.nextLine();
+
+                if (!runner.isRunning()) {
+                    renderer.printFinished();
+                    return;
+                }
+
                 switch (choice) {
                     case PAUSE -> {
                         runner.pause();

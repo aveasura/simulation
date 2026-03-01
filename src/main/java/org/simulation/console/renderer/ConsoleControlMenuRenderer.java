@@ -28,6 +28,11 @@ public class ConsoleControlMenuRenderer implements ControlMenuRenderer {
     }
 
     @Override
+    public void printFinished() {
+        output.println("Симуляция уже завершена. Возврат в главное меню.");
+    }
+
+    @Override
     public void printInvalidChoice() {
         output.println("Выберите и введите цифру из предложенных");
     }
