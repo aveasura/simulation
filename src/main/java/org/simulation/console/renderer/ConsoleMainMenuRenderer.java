@@ -2,11 +2,10 @@ package org.simulation.console.renderer;
 
 import org.simulation.console.Output;
 
-public class ConsoleMenuRenderer implements MenuRenderer {
+public class ConsoleMainMenuRenderer implements MainMenuRenderer {
 
     private static final String MAIN_MENU = """
             Главное меню
-                        
             1. Показать правила
             2. Запустить симуляцию
             3. Выход
@@ -28,27 +27,27 @@ public class ConsoleMenuRenderer implements MenuRenderer {
 
     private final Output output;
 
-    public ConsoleMenuRenderer(Output output) {
+    public ConsoleMainMenuRenderer(Output output) {
         this.output = output;
     }
 
     @Override
-    public void renderMainMenu() {
-        output.print(MAIN_MENU);
+    public void renderMenu() {
+        output.println(MAIN_MENU);
     }
 
     @Override
     public void renderRules() {
-        output.print(RULES);
+        output.println(RULES);
     }
 
     @Override
     public void printExitMessage() {
-        output.print("Выход...");
+        output.println("Выход...");
     }
 
     @Override
-    public void printInvalidMainMenuChoice() {
-        output.print("Выберите цифру из доступных");
+    public void printInvalidChoice() {
+        output.println("Выберите цифру из доступных");
     }
 }

@@ -1,12 +1,12 @@
 package org.simulation.console.renderer;
 
-public interface MenuRenderer {
+public interface MainMenuRenderer {
 
-    void renderMainMenu();
+    void renderMenu();
 
     void renderRules();
 
     void printExitMessage();
 
-    void printInvalidMainMenuChoice();
+    void printInvalidChoice();
 }

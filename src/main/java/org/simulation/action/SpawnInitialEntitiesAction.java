@@ -2,7 +2,7 @@ package org.simulation.action;
 
 import org.simulation.entity.Entity;
 import org.simulation.entity.EntityType;
-import org.simulation.factory.Factory;
+import org.simulation.factory.EntityFactory;
 import org.simulation.game.GameMap;
 import org.simulation.game.Position;
 
@@ -14,11 +14,11 @@ public class SpawnInitialEntitiesAction implements Actions {
     private static final int EXTRA_TREES_COUNT = 10;
     private static final int EXTRA_MOUNTAINS_COUNT = 8;
 
-    private final Factory<Entity> factory;
+    private final EntityFactory entityFactory;
     private final RandomFreePositionGenerator positionGenerator;
 
-    public SpawnInitialEntitiesAction(Factory<Entity> factory, RandomFreePositionGenerator positionGenerator) {
-        this.factory = factory;
+    public SpawnInitialEntitiesAction(EntityFactory entityFactory, RandomFreePositionGenerator positionGenerator) {
+        this.entityFactory = entityFactory;
         this.positionGenerator = positionGenerator;
     }
 
@@ -46,18 +46,18 @@ public class SpawnInitialEntitiesAction implements Actions {
     private List<Entity> createInitialEntities() {
         List<Entity> entities = new ArrayList<>();
 
-        entities.add(factory.create(EntityType.RABBIT));
-        entities.add(factory.create(EntityType.RABBIT));
-        entities.add(factory.create(EntityType.RABBIT));
+        entities.add(entityFactory.create(EntityType.RABBIT));
+        entities.add(entityFactory.create(EntityType.RABBIT));
+        entities.add(entityFactory.create(EntityType.RABBIT));
 
-        entities.add(factory.create(EntityType.FOX));
+        entities.add(entityFactory.create(EntityType.FOX));
 
-        entities.add(factory.create(EntityType.GRASS));
-        entities.add(factory.create(EntityType.GRASS));
-        entities.add(factory.create(EntityType.GRASS));
+        entities.add(entityFactory.create(EntityType.GRASS));
+        entities.add(entityFactory.create(EntityType.GRASS));
+        entities.add(entityFactory.create(EntityType.GRASS));
 
-        entities.add(factory.create(EntityType.TREE));
-        entities.add(factory.create(EntityType.MOUNTAIN));
+        entities.add(entityFactory.create(EntityType.TREE));
+        entities.add(entityFactory.create(EntityType.MOUNTAIN));
 
         addEntities(entities, EntityType.TREE, EXTRA_TREES_COUNT);
         addEntities(entities, EntityType.MOUNTAIN, EXTRA_MOUNTAINS_COUNT);
@@ -67,7 +67,7 @@ public class SpawnInitialEntitiesAction implements Actions {
 
     private void addEntities(List<Entity> target, EntityType type, int count) {
         for (int i = 0; i < count; i++) {
-            target.add(factory.create(type));
+            target.add(entityFactory.create(type));
         }
     }
 }
