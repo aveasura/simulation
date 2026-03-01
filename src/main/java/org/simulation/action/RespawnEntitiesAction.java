@@ -11,6 +11,7 @@ import org.simulation.game.Position;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RespawnEntitiesAction implements Actions {
 
@@ -22,8 +23,8 @@ public class RespawnEntitiesAction implements Actions {
     private final EntityFactory entityFactory;
 
     public RespawnEntitiesAction(RandomFreePositionGenerator positionGenerator, EntityFactory entityFactory) {
-        this.positionGenerator = positionGenerator;
-        this.entityFactory = entityFactory;
+        this.positionGenerator = Objects.requireNonNull(positionGenerator, "positionGenerator must not be null");
+        this.entityFactory = Objects.requireNonNull(entityFactory, "entityFactory must not be null");
     }
 
     @Override

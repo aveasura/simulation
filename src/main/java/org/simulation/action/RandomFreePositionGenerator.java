@@ -6,6 +6,7 @@ import org.simulation.game.Position;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 
@@ -14,7 +15,7 @@ public class RandomFreePositionGenerator {
     private final Random random;
 
     public RandomFreePositionGenerator(Random random) {
-        this.random = random;
+        this.random = Objects.requireNonNull(random, "random must not be null");
     }
 
     public List<Position> generate(GameMap gameMap, int entitiesToSpawn) {

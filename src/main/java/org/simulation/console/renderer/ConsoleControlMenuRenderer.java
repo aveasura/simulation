@@ -2,12 +2,14 @@ package org.simulation.console.renderer;
 
 import org.simulation.console.Output;
 
+import java.util.Objects;
+
 public class ConsoleControlMenuRenderer implements ControlMenuRenderer {
 
     private final Output output;
 
     public ConsoleControlMenuRenderer(Output output) {
-        this.output = output;
+        this.output = Objects.requireNonNull(output, "output must not be null");
     }
 
     @Override

@@ -8,5 +8,4 @@ import java.util.List;
 public interface NeighborFinder {
 
     List<Position> find(GameMap gameMap, Position current);
-
 }

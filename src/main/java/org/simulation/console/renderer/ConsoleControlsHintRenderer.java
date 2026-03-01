@@ -2,6 +2,8 @@ package org.simulation.console.renderer;
 
 import org.simulation.console.Output;
 
+import java.util.Objects;
+
 public class ConsoleControlsHintRenderer implements HintRenderer {
 
     private static final String CONTROLS_HINTS = """
@@ -13,7 +15,7 @@ public class ConsoleControlsHintRenderer implements HintRenderer {
     private final Output output;
 
     public ConsoleControlsHintRenderer(Output output) {
-        this.output = output;
+        this.output = Objects.requireNonNull(output, " must not be null");
     }
 
     @Override

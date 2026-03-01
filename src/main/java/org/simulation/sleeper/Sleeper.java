@@ -2,5 +2,5 @@ package org.simulation.sleeper;
 
 public interface Sleeper {
 
-    void sleep(int ms);
+    void sleep(int millis);
 }

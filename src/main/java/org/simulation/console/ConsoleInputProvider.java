@@ -1,5 +1,6 @@
 package org.simulation.console;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class ConsoleInputProvider implements InputProvider {
@@ -7,7 +8,7 @@ public class ConsoleInputProvider implements InputProvider {
     private final Scanner scanner;
 
     public ConsoleInputProvider(Scanner scanner) {
-        this.scanner = scanner;
+        this.scanner = Objects.requireNonNull(scanner, "scanner must not be null");
     }
 
     @Override

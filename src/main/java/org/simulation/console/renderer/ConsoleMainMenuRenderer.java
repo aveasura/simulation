@@ -2,6 +2,8 @@ package org.simulation.console.renderer;
 
 import org.simulation.console.Output;
 
+import java.util.Objects;
+
 public class ConsoleMainMenuRenderer implements MainMenuRenderer {
 
     private static final String MAIN_MENU = """
@@ -28,7 +30,7 @@ public class ConsoleMainMenuRenderer implements MainMenuRenderer {
     private final Output output;
 
     public ConsoleMainMenuRenderer(Output output) {
-        this.output = output;
+        this.output = Objects.requireNonNull(output, "output must not be null");
     }
 
     @Override

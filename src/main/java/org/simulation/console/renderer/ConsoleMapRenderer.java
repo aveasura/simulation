@@ -1,12 +1,12 @@
 package org.simulation.console.renderer;
 
-import org.simulation.console.ConsoleOutput;
 import org.simulation.console.Output;
 import org.simulation.entity.Entity;
 import org.simulation.game.GameMap;
 import org.simulation.game.Position;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class ConsoleMapRenderer implements MapRenderer {
 
@@ -15,7 +15,7 @@ public class ConsoleMapRenderer implements MapRenderer {
     private final Output output;
 
     public ConsoleMapRenderer(Output output) {
-        this.output = output;
+        this.output = Objects.requireNonNull(output, "output must not be null");
     }
 
     @Override

@@ -3,6 +3,8 @@ package org.simulation.console;
 import org.simulation.console.renderer.ControlMenuRenderer;
 import org.simulation.game.runner.Runner;
 
+import java.util.Objects;
+
 public class ConsoleControlMenu implements Menu {
 
     private static final String PAUSE = "1";
@@ -16,9 +18,9 @@ public class ConsoleControlMenu implements Menu {
     public ConsoleControlMenu(Runner runner,
                               InputProvider provider,
                               ControlMenuRenderer renderer) {
-        this.runner = runner;
-        this.provider = provider;
-        this.renderer = renderer;
+        this.runner = Objects.requireNonNull(runner, "runner must not be null");
+        this.provider = Objects.requireNonNull(provider, "provider must not be null");
+        this.renderer = Objects.requireNonNull(renderer, "renderer must not be null");
     }
 
     @Override
