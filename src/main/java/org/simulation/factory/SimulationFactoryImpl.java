@@ -1,6 +1,6 @@
 package org.simulation.factory;
 
-import org.simulation.action.Actions;
+import org.simulation.action.Action;
 import org.simulation.action.MoveEntityAction;
 import org.simulation.action.RandomFreePositionGenerator;
 import org.simulation.action.RespawnEntitiesAction;
@@ -48,12 +48,12 @@ public class SimulationFactoryImpl implements SimulationFactory {
         Random random = new Random();
         RandomFreePositionGenerator positionGenerator = new RandomFreePositionGenerator(random);
         SpawnInitialEntitiesAction initialSpawn = new SpawnInitialEntitiesAction(entityFactory, positionGenerator);
-        List<Actions> initialActions = List.of(initialSpawn);
+        List<Action> initialActions = List.of(initialSpawn);
 
         PathFinder pathFinder = new BfsPathFinder(neighborFinder);
         MoveEntityAction moveEntityAction = new MoveEntityAction(pathFinder);
         RespawnEntitiesAction respawnEntitiesAction = new RespawnEntitiesAction(positionGenerator, entityFactory);
-        List<Actions> turnActions = List.of(moveEntityAction, respawnEntitiesAction);
+        List<Action> turnActions = List.of(moveEntityAction, respawnEntitiesAction);
 
         SimulationEndCondition endCondition = new SimulationEndCondition();
         Sleeper sleeper = new ThreadSleeper();

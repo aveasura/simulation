@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class RespawnEntitiesAction implements Actions {
+public class RespawnEntitiesAction implements Action {
 
     private static final int MAX_PREDATOR_COUNT = 3;
     private static final int MIN_HERBIVORES_COUNT = 3;

@@ -15,7 +15,7 @@ public class ConsoleControlHintRenderer implements HintRenderer {
     private final Output output;
 
     public ConsoleControlHintRenderer(Output output) {
-        this.output = Objects.requireNonNull(output, " must not be null");
+        this.output = Objects.requireNonNull(output, "output must not be null");
     }
 
     @Override

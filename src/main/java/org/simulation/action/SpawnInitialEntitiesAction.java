@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class SpawnInitialEntitiesAction implements Actions {
+public class SpawnInitialEntitiesAction implements Action {
 
     private static final int EXTRA_TREES_COUNT = 10;
     private static final int EXTRA_MOUNTAINS_COUNT = 8;

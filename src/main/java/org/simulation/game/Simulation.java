@@ -1,6 +1,6 @@
 package org.simulation.game;
 
-import org.simulation.action.Actions;
+import org.simulation.action.Action;
 import org.simulation.console.renderer.HintRenderer;
 import org.simulation.console.renderer.MapRenderer;
 import org.simulation.sleeper.Sleeper;
@@ -19,16 +19,16 @@ public class Simulation {
     private int step = 0;
 
     private final GameMap gameMap;
-    private final List<Actions> initialActions;
-    private final List<Actions> turnActions;
+    private final List<Action> initialActions;
+    private final List<Action> turnActions;
     private final MapRenderer mapRenderer;
     private final HintRenderer hintRenderer;
     private final SimulationEndCondition endCondition;
     private final Sleeper sleeper;
 
     public Simulation(GameMap gameMap,
-                      List<Actions> initialActions,
-                      List<Actions> turnActions,
+                      List<Action> initialActions,
+                      List<Action> turnActions,
                       MapRenderer mapRenderer,
                       HintRenderer hintRenderer,
                       SimulationEndCondition endCondition,
@@ -103,10 +103,10 @@ public class Simulation {
         hintRenderer.render();
     }
 
-    private boolean executeActions(List<Actions> actions) {
+    private boolean executeActions(List<Action> actions) {
         boolean hadChanges = false;
 
-        for (Actions action : actions) {
+        for (Action action : actions) {
             boolean changed = action.execute(gameMap);
             if (changed) {
                 hadChanges = true;

@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-public class MoveEntityAction implements Actions {
+public class MoveEntityAction implements Action {
 
     private final PathFinder pathFinder;
 
