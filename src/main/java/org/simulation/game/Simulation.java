@@ -10,6 +10,9 @@ import java.util.Objects;
 
 public class Simulation {
 
+    private static final int PAUSE_POLL_DELAY_MS = 100;
+    private static final int TURN_DELAY_MS = 1500;
+
     private volatile boolean running = true;
     private volatile boolean isPaused = false;
 
@@ -49,25 +52,22 @@ public class Simulation {
     }
 
     public void nextTurn() {
-        while (running && isPaused) {
-            sleeper.sleep(200);
-            if (!running) {
-                return;
-            }
+        waitWhilePaused();
+        if (!running) {
+            return;
         }
 
-        mapRenderer.render(gameMap, step);
-        hintRenderer.render();
+        renderCurrentState();
 
-        boolean turnHadChanged = executeActions(turnActions);
-
+        boolean turnChanged = executeActions(turnActions);
         step++;
-        sleeper.sleep(1500);
 
-        if (endCondition.isFinished(gameMap, turnHadChanged)) {
-            mapRenderer.render(gameMap, step);
-            running = false;
+        boolean finished = finishIfNeeded(turnChanged);
+        if (finished) {
+            return;
         }
+
+        sleeper.sleep(TURN_DELAY_MS);
     }
 
     public void pauseSimulation() {
@@ -81,6 +81,26 @@ public class Simulation {
     public void stopSimulation() {
         running = false;
         isPaused = false;
+    }
+
+    private void waitWhilePaused() {
+        while (running && isPaused) {
+            sleeper.sleep(PAUSE_POLL_DELAY_MS);
+        }
+    }
+
+    private boolean finishIfNeeded(boolean turnChanged) {
+        if (endCondition.isFinished(gameMap, turnChanged)) {
+            mapRenderer.render(gameMap, step);
+            running = false;
+            return true;
+        }
+        return false;
+    }
+
+    private void renderCurrentState() {
+        mapRenderer.render(gameMap, step);
+        hintRenderer.render();
     }
 
     private boolean executeActions(List<Actions> actions) {

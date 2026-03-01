@@ -9,4 +9,6 @@ public interface MainMenuRenderer {
     void printExitMessage();
 
     void printInvalidChoice();
+
+    void printInputClosed();
 }

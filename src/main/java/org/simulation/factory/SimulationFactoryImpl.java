@@ -9,6 +9,7 @@ import org.simulation.console.renderer.HintRenderer;
 import org.simulation.console.renderer.MapRenderer;
 import org.simulation.game.GameMap;
 import org.simulation.game.Simulation;
+import org.simulation.game.SimulationMapConfig;
 import org.simulation.game.SimulationEndCondition;
 import org.simulation.path.BfsPathFinder;
 import org.simulation.path.PathFinder;
@@ -22,15 +23,18 @@ import java.util.Random;
 
 public class SimulationFactoryImpl implements SimulationFactory {
 
+    private final SimulationMapConfig config;
     private final MapRenderer mapRenderer;
     private final HintRenderer hintRenderer;
     private final EntityFactory entityFactory;
     private final NeighborFinder neighborFinder;
 
-    public SimulationFactoryImpl(MapRenderer mapRenderer,
+    public SimulationFactoryImpl(SimulationMapConfig config,
+                                 MapRenderer mapRenderer,
                                  HintRenderer hintRenderer,
                                  EntityFactory entityFactory,
                                  NeighborFinder neighborFinder) {
+        this.config = Objects.requireNonNull(config, "config must not be null");
         this.mapRenderer = Objects.requireNonNull(mapRenderer, "mapRenderer must not be null");
         this.hintRenderer = Objects.requireNonNull(hintRenderer, "hintRenderer must not be null");
         this.entityFactory = Objects.requireNonNull(entityFactory, "entityFactory must not be null");
@@ -39,7 +43,7 @@ public class SimulationFactoryImpl implements SimulationFactory {
 
     @Override
     public Simulation create() {
-        GameMap gameMap = new GameMap();
+        GameMap gameMap = new GameMap(config.mapWidth(), config.mapHeight());
 
         Random random = new Random();
         RandomFreePositionGenerator positionGenerator = new RandomFreePositionGenerator(random);

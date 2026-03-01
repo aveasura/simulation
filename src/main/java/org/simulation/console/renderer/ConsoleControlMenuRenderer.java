@@ -31,4 +31,9 @@ public class ConsoleControlMenuRenderer implements ControlMenuRenderer {
     public void printInvalidChoice() {
         output.println("Выберите и введите цифру из предложенных");
     }
+
+    @Override
+    public void printInputClosed() {
+        output.println("Поток закрыт, симуляция завершается.");
+    }
 }

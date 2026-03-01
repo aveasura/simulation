@@ -7,19 +7,31 @@ import java.util.Map;
 
 public class GameMap {
 
-    private static final int WIDTH = 10;
-    private static final int HEIGHT = 10;
+    private final int width;
+    private final int height;
 
     private final Map<Position, Entity> entities = new HashMap<>();
 
-    public void place(Position position, Entity entity) {
-        if (entities.containsKey(position)) {
-            throw new IllegalArgumentException("Position already busy");
+    public GameMap(int width, int height) {
+        if (width <= 0 || height <= 0) {
+            throw new IllegalArgumentException("Invalid map size: width=" + width + ", height=" + height);
         }
+        this.width = width;
+        this.height = height;
+    }
+
+    public void place(Position position, Entity entity) {
+        validateInside(position);
+        if (entities.containsKey(position)) {
+            throw new IllegalArgumentException("Position already busy: " + position);
+        }
+
         entities.put(position, entity);
     }
 
     public void move(Position from, Position to) {
+        validateInside(from);
+        validateInside(to);
         if (!entities.containsKey(from)) {
             throw new IllegalStateException("No entity at source position: " + from);
         }
@@ -37,21 +49,24 @@ public class GameMap {
     }
 
     public Entity getAt(Position position) {
+        validateInside(position);
         return entities.get(position);
     }
 
     public void removeEntity(Position target) {
+        validateInside(target);
         entities.remove(target);
     }
 
     public boolean isInside(Position position) {
         return position.x() >= 0
                 && position.y() >= 0
-                && position.x() < WIDTH
-                && position.y() < HEIGHT;
+                && position.x() < width
+                && position.y() < height;
     }
 
     public boolean isOccupied(Position position) {
+        validateInside(position);
         return entities.containsKey(position);
     }
 
@@ -60,14 +75,20 @@ public class GameMap {
     }
 
     public int getHeight() {
-        return HEIGHT;
+        return height;
     }
 
     public int getWidth() {
-        return WIDTH;
+        return width;
     }
 
     public int getMapArea() {
-        return WIDTH * HEIGHT;
+        return width * height;
+    }
+
+    private void validateInside(Position position) {
+        if (!isInside(position)) {
+            throw new IllegalArgumentException("Position is outside the map: " + position);
+        }
     }
 }

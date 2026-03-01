@@ -1,7 +1,7 @@
 package org.simulation.console;
 
-import org.simulation.game.runner.Runner;
 import org.simulation.console.renderer.MainMenuRenderer;
+import org.simulation.game.runner.Runner;
 
 import java.util.Objects;
 
@@ -27,23 +27,28 @@ public class ConsoleMainMenu implements Menu {
     }
 
     public void start() {
-        while (true) {
-            mainMenuRenderer.renderMenu();
+        try {
+            while (true) {
+                mainMenuRenderer.renderMenu();
 
-            String choice = inputProvider.nextLine();
-            switch (choice) {
-                case READ_RULES -> mainMenuRenderer.renderRules();
-                case START -> {
-                    runner.start();
-                    controlMenu.start();
+                String choice = inputProvider.nextLine();
+                switch (choice) {
+                    case READ_RULES -> mainMenuRenderer.renderRules();
+                    case START -> {
+                        runner.start();
+                        controlMenu.start();
+                    }
+                    case EXIT -> {
+                        runner.stop();
+                        mainMenuRenderer.printExitMessage();
+                        return;
+                    }
+                    default -> mainMenuRenderer.printInvalidChoice();
                 }
-                case EXIT -> {
-                    runner.stop();
-                    mainMenuRenderer.printExitMessage();
-                    return;
-                }
-                default -> mainMenuRenderer.printInvalidChoice();
             }
+        } catch (IllegalStateException e) {
+            runner.stop();
+            mainMenuRenderer.printInputClosed();
         }
     }
 }

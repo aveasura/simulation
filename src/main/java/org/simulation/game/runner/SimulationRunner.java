@@ -16,39 +16,57 @@ public class SimulationRunner implements Runner {
     }
 
     @Override
-    public void start() {
+    public synchronized void start() {
         if (isRunning()) {
             return;
         }
 
         simulation = factory.create();
         simulationThread = new Thread(simulation::startSimulation);
+        simulationThread.setDaemon(true);
         simulationThread.start();
+
     }
 
     @Override
-    public void pause() {
+    public synchronized void pause() {
         if (simulation != null) {
             simulation.pauseSimulation();
         }
     }
 
     @Override
-    public void resume() {
+    public synchronized void resume() {
         if (simulation != null) {
             simulation.resumeSimulation();
         }
     }
 
     @Override
-    public void stop() {
-        if (simulation != null) {
-            simulation.stopSimulation();
+    public synchronized void stop() {
+        Simulation currentSimulation = simulation;
+        Thread currentThread = simulationThread;
+
+        if (currentSimulation != null) {
+            currentSimulation.stopSimulation();
         }
+
+        if (currentThread != null) {
+            currentThread.interrupt();
+            try {
+                currentThread.join();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return;
+            }
+        }
+
+        simulation = null;
+        simulationThread = null;
     }
 
     @Override
-    public boolean isRunning() {
+    public synchronized boolean isRunning() {
         return simulationThread != null && simulationThread.isAlive();
     }
 }

@@ -25,24 +25,30 @@ public class ConsoleControlMenu implements Menu {
 
     @Override
     public void start() {
-        while (true) {
-            String choice = provider.nextLine();
-            switch (choice) {
-                case PAUSE -> {
-                    runner.pause();
-                    renderer.printPaused();
+        try {
+            while (true) {
+                String choice = provider.nextLine();
+                switch (choice) {
+                    case PAUSE -> {
+                        runner.pause();
+                        renderer.printPaused();
+                    }
+                    case RESUME -> {
+                        runner.resume();
+                        renderer.printResumed();
+                    }
+                    case STOP -> {
+                        runner.stop();
+                        renderer.printStopped();
+                        return;
+                    }
+                    default -> renderer.printInvalidChoice();
                 }
-                case RESUME -> {
-                    runner.resume();
-                    renderer.printResumed();
-                }
-                case STOP -> {
-                    runner.stop();
-                    renderer.printStopped();
-                    return;
-                }
-                default -> renderer.printInvalidChoice();
             }
+        } catch (IllegalStateException e) {
+            runner.stop();
+            renderer.printInputClosed();
+            throw  e;
         }
     }
 }

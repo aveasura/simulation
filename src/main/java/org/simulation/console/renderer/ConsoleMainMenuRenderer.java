@@ -55,4 +55,9 @@ public class ConsoleMainMenuRenderer implements MainMenuRenderer {
     public void printInvalidChoice() {
         output.println("Неправильный ввод: выберите и введите цифру из предложенных в главном меню");
     }
+
+    @Override
+    public void printInputClosed() {
+        output.print("Поток ввода закрыт. Приложение закрывается.");
+    }
 }

@@ -19,6 +19,7 @@ import org.simulation.factory.EntityFactory;
 import org.simulation.factory.EntityFactoryImpl;
 import org.simulation.factory.SimulationFactory;
 import org.simulation.factory.SimulationFactoryImpl;
+import org.simulation.game.SimulationMapConfig;
 import org.simulation.game.runner.Runner;
 import org.simulation.game.runner.SimulationRunner;
 import org.simulation.path.neighbor.NeighborFinder;
@@ -27,6 +28,10 @@ import org.simulation.path.neighbor.NeighborFinderFourDirs;
 import java.util.Scanner;
 
 public class Main {
+
+    private static final int DEFAULT_MAP_WIDTH = 10;
+    private static final int DEFAULT_MAP_HEIGHT = 10;
+
     public static void main(String[] args) {
 
         Output output = new ConsoleOutput();
@@ -34,10 +39,12 @@ public class Main {
         EntityFactory entityFactory = new EntityFactoryImpl();
         NeighborFinder neighborFinder = new NeighborFinderFourDirs();
         HintRenderer hintRenderer = new ConsoleControlsHintRenderer(output);
-        SimulationFactory simulationFactory = new SimulationFactoryImpl(mapRenderer, hintRenderer, entityFactory, neighborFinder);
-        Menu mainManu = getMenu(simulationFactory, output);
+        SimulationMapConfig simulationMapConfig = new SimulationMapConfig(DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT);
+        SimulationFactory simulationFactory
+                = new SimulationFactoryImpl(simulationMapConfig, mapRenderer, hintRenderer, entityFactory, neighborFinder);
 
-        mainManu.start();
+        Menu menu = getMenu(simulationFactory, output);
+        menu.start();
     }
 
     private static Menu getMenu(SimulationFactory simulationFactory, Output output) {
@@ -49,7 +56,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         InputProvider inputProvider = new ConsoleInputProvider(scanner);
 
-        Menu controlMenu = new ConsoleControlMenu(runner, inputProvider, controlMenuRenderer);
-        return new ConsoleMainMenu(runner, controlMenu, mainMenuRenderer, inputProvider);
+        Menu menu = new ConsoleControlMenu(runner, inputProvider, controlMenuRenderer);
+        return new ConsoleMainMenu(runner, menu, mainMenuRenderer, inputProvider);
     }
 }

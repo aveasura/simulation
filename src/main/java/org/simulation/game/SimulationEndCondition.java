@@ -5,15 +5,9 @@ import org.simulation.entity.creature.movable.herbivore.Herbivore;
 import org.simulation.entity.creature.movable.predator.Predator;
 import org.simulation.entity.immovable.Grass;
 
-/**
- * Симуляция завершается если на карте отсутствуют:
- *  Хищники, Травоядные, Трава.
- *  Либо если после завершения хода нет изменений на карте.
- */
 public class SimulationEndCondition {
 
-    public boolean isFinished(GameMap gameMap, boolean turnHadChanged) {
-
+    public boolean isFinished(GameMap gameMap, boolean turnChanged) {
         boolean hasPredators = false;
         boolean hasHerbivores = false;
         boolean hasGrass = false;
@@ -29,10 +23,9 @@ public class SimulationEndCondition {
             }
         }
 
-        if (!hasPredators || !hasHerbivores || !hasGrass) {
-            return true;
-        }
+        boolean missingRequiredEntities = !hasPredators || !hasHerbivores || !hasGrass;
+        boolean noChangesThisTurn = !turnChanged;
 
-        return !turnHadChanged;
+        return missingRequiredEntities || noChangesThisTurn;
     }
 }
