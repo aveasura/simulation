@@ -23,13 +23,13 @@ public class ConsoleControlMenuRenderer implements ControlMenuRenderer {
     }
 
     @Override
-    public void printStopped() {
+    public void printStoppedByUser() {
         output.println("Симуляция завершена пользователем.");
     }
 
     @Override
-    public void printFinished() {
-        output.println("Симуляция уже завершена. Возврат в главное меню.");
+    public void printTerminalStateReached() {
+        output.println("Достигнуто конечное состояние, выход в главное меню.");
     }
 
     @Override

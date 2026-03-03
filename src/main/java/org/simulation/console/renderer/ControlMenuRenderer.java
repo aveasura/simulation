@@ -6,11 +6,11 @@ public interface ControlMenuRenderer {
 
     void printResumed();
 
-    void printStopped();
+    void printStoppedByUser();
 
     void printInvalidChoice();
 
     void printInputClosed();
 
-    void printFinished();
+    void printTerminalStateReached();
 }

@@ -3,6 +3,8 @@ package org.simulation.console;
 import org.simulation.console.renderer.MainMenuRenderer;
 import org.simulation.game.runner.Runner;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class ConsoleMainMenu implements Menu {
@@ -11,44 +13,69 @@ public class ConsoleMainMenu implements Menu {
     private static final String START = "2";
     private static final String EXIT = "3";
 
+    private boolean exitRequested;
+
     private final Runner runner;
     private final Menu controlMenu;
-    private final MainMenuRenderer mainMenuRenderer;
-    private final InputProvider inputProvider;
+    private final MainMenuRenderer renderer;
+    private final InputProvider input;
 
     public ConsoleMainMenu(Runner runner,
                            Menu controlMenu,
-                           MainMenuRenderer mainMenuRenderer,
-                           InputProvider inputProvider) {
+                           MainMenuRenderer renderer,
+                           InputProvider input) {
         this.runner = Objects.requireNonNull(runner, "runner must not be null");
         this.controlMenu = Objects.requireNonNull(controlMenu, "controlMenu must not be null");
-        this.mainMenuRenderer = Objects.requireNonNull(mainMenuRenderer, "mainMenuRenderer must not be null");
-        this.inputProvider = Objects.requireNonNull(inputProvider, "inputProvider must not be null");
+        this.renderer = Objects.requireNonNull(renderer, "renderer must not be null");
+        this.input = Objects.requireNonNull(input, "input must not be null");
     }
 
     public void start() {
-        try {
-            while (true) {
-                mainMenuRenderer.renderMenu();
+        resetExitFlag();
 
-                String choice = inputProvider.nextLine();
-                switch (choice) {
-                    case READ_RULES -> mainMenuRenderer.renderRules();
-                    case START -> {
-                        runner.start();
-                        controlMenu.start();
-                    }
-                    case EXIT -> {
-                        runner.stop();
-                        mainMenuRenderer.printExitMessage();
-                        return;
-                    }
-                    default -> mainMenuRenderer.printInvalidChoice();
+        Map<String, Runnable> commandsByKey = createCommands();
+        MenuLoop menuLoop = createMenuLoop(commandsByKey);
+        menuLoop.start();
+    }
+
+    private void resetExitFlag() {
+        exitRequested = false;
+    }
+
+    private Map<String, Runnable> createCommands() {
+        Map<String, Runnable> commandsByKey = new LinkedHashMap<>();
+        commandsByKey.put(READ_RULES, renderer::renderRules);
+        commandsByKey.put(START, this::startSimulation);
+        commandsByKey.put(EXIT, this::exit);
+        return commandsByKey;
+    }
+
+    private void startSimulation() {
+        runner.start();
+        controlMenu.start();
+    }
+
+    private void exit() {
+        runner.stop();
+        renderer.printExitMessage();
+        exitRequested = true;
+    }
+
+    private MenuLoop createMenuLoop(Map<String, Runnable> commandsByKey) {
+        return new MenuLoop(
+                input,
+                commandsByKey,
+                renderer::renderMenu,
+                renderer::printInvalidChoice,
+                this::handleInputClosed,
+                () -> exitRequested,
+                () -> {
                 }
-            }
-        } catch (IllegalStateException e) {
-            runner.stop();
-            mainMenuRenderer.printInputClosed();
-        }
+        );
+    }
+
+    private void handleInputClosed() {
+        runner.stop();
+        renderer.printInputClosed();
     }
 }
