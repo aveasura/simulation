@@ -2,12 +2,14 @@ package org.simulation.entity.creature.movable.predator;
 
 import org.simulation.entity.Entity;
 import org.simulation.entity.creature.Creature;
-import org.simulation.entity.creature.movable.herbivore.Herbivore;
 import org.simulation.game.GameMap;
 import org.simulation.game.Position;
 
+import java.util.Set;
+
 public abstract class Predator extends Creature {
-    protected final int attackDamage;
+
+    private final int attackDamage;
 
     protected Predator(int speed, int healthPoint, int attackDamage) {
         super(speed, healthPoint);
@@ -15,19 +17,31 @@ public abstract class Predator extends Creature {
     }
 
     @Override
-    public boolean isFood(Entity entity) {
-        return entity instanceof Herbivore;
+    public final boolean isFood(Entity entity) {
+        return supportsPrey(entity);
     }
 
     @Override
-    protected void interactWithTarget(GameMap gameMap, Position finalTarget, Entity entityTarget) {
-        if (entityTarget instanceof Herbivore herbivore) {
-            this.attack(herbivore);
-
-            if (!herbivore.isAlive()) {
-                gameMap.remove(finalTarget);
-            }
+    protected final void interactWithTarget(GameMap gameMap, Position targetPosition, Entity targetEntity) {
+        if (!supportsPrey(targetEntity)) {
+            throw new IllegalStateException(
+                    getClass().getSimpleName() + " cannot interact with non-prey target: "
+                            + targetEntity.getClass().getSimpleName());
         }
+
+        Creature prey = (Creature) targetEntity;
+        attack(prey);
+
+        if (!prey.isAlive()) {
+            gameMap.remove(targetPosition);
+        }
+    }
+
+    protected abstract Set<Class<? extends Creature>> preyTypes();
+
+    private boolean supportsPrey(Entity entity) {
+        return preyTypes().stream()
+                .anyMatch(preyType -> preyType.isInstance(entity));
     }
 
     private void attack(Creature target) {

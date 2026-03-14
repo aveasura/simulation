@@ -20,7 +20,7 @@ public abstract class Creature extends Entity implements Movable {
     }
 
     @Override
-    public void makeMove(GameMap gameMap, PathFinder pathFinder) {
+    public final void makeMove(GameMap gameMap, PathFinder pathFinder) {
         Position currentPosition = gameMap.getPosition(this);
 
         List<Position> path = findPathToFood(gameMap, currentPosition, pathFinder);
