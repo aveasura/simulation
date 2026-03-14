@@ -1,6 +1,6 @@
-package org.simulation.console.renderer;
+package org.simulation.ui.console.renderer;
 
-import org.simulation.console.Output;
+import org.simulation.ui.console.output.Output;
 
 import java.util.Objects;
 

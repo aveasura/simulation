@@ -1,4 +1,4 @@
-package org.simulation.console;
+package org.simulation.ui.console.output;
 
 public interface Output {
 

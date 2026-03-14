@@ -1,7 +1,6 @@
-package org.simulation.console.renderer;
+package org.simulation.ui.console.renderer;
 
-import org.simulation.console.EntitySymbolProvider;
-import org.simulation.console.Output;
+import org.simulation.ui.console.output.Output;
 import org.simulation.entity.Entity;
 import org.simulation.game.GameMap;
 import org.simulation.game.Position;

@@ -1,4 +1,4 @@
-package org.simulation.console.renderer;
+package org.simulation.ui.console.renderer;
 
 public interface HintRenderer {
 

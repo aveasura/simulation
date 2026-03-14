@@ -1,4 +1,6 @@
-package org.simulation.console;
+package org.simulation.ui.console.menu;
+
+import org.simulation.ui.console.input.InputProvider;
 
 import java.util.Map;
 import java.util.Objects;

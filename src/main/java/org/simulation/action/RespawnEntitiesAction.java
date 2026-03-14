@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+// TODO: refactor
 public class RespawnEntitiesAction implements Action {
 
     private static final int MAX_PREDATOR_COUNT = 3;

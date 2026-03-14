@@ -1,4 +1,4 @@
-package org.simulation.console;
+package org.simulation.ui.console.renderer;
 
 import org.simulation.entity.Entity;
 import org.simulation.entity.creature.movable.herbivore.Rabbit;
