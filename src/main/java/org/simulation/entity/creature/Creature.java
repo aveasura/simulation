@@ -71,10 +71,6 @@ public abstract class Creature extends Entity implements Movable {
         return pathFinder.find(gameMap, currentPosition, isFoodPosition, isReachablePosition);
     }
 
-    private boolean canInteractWithTarget(GameMap gameMap, Position nextPosition, Position finalTargetPosition) {
-        return nextPosition.equals(finalTargetPosition) && gameMap.isOccupied(finalTargetPosition);
-    }
-
     private boolean isFoodPosition(GameMap gameMap, Position position) {
         if (!gameMap.isOccupied(position)) {
             return false;
@@ -88,6 +84,10 @@ public abstract class Creature extends Entity implements Movable {
         return !gameMap.isOccupied(position) || isFoodPosition(gameMap, position);
     }
 
+    private boolean hasNextStep(List<Position> path) {
+        return path.size() > 1;
+    }
+
     private Position getReachablePosition(List<Position> path) {
         int lastPathIndex = getLastPathIndex(path);
         int reachablePathIndex = Math.min(speed, lastPathIndex);
@@ -99,16 +99,16 @@ public abstract class Creature extends Entity implements Movable {
         return path.get(lastPathIndex);
     }
 
-    private void moveTo(GameMap gameMap, Position currentPosition, Position nextPosition) {
-        gameMap.remove(currentPosition);
-        gameMap.put(nextPosition, this);
-    }
-
     private int getLastPathIndex(List<Position> path) {
         return path.size() - 1;
     }
 
-    private boolean hasNextStep(List<Position> path) {
-        return path.size() > 1;
+    private boolean canInteractWithTarget(GameMap gameMap, Position nextPosition, Position finalTargetPosition) {
+        return nextPosition.equals(finalTargetPosition) && gameMap.isOccupied(finalTargetPosition);
+    }
+
+    private void moveTo(GameMap gameMap, Position currentPosition, Position nextPosition) {
+        gameMap.remove(currentPosition);
+        gameMap.put(nextPosition, this);
     }
 }
