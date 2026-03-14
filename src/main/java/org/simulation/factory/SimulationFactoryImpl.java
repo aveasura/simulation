@@ -10,7 +10,6 @@ import org.simulation.console.renderer.MapRenderer;
 import org.simulation.game.GameMap;
 import org.simulation.game.Simulation;
 import org.simulation.game.SimulationMapConfig;
-import org.simulation.game.SimulationEndCondition;
 import org.simulation.path.BfsPathFinder;
 import org.simulation.path.PathFinder;
 import org.simulation.path.neighbor.NeighborFinder;
@@ -55,7 +54,6 @@ public class SimulationFactoryImpl implements SimulationFactory {
         RespawnEntitiesAction respawnEntitiesAction = new RespawnEntitiesAction(positionGenerator, entityFactory);
         List<Action> turnActions = List.of(moveEntityAction, respawnEntitiesAction);
 
-        SimulationEndCondition endCondition = new SimulationEndCondition();
         Sleeper sleeper = new ThreadSleeper();
 
         return new Simulation(
@@ -64,7 +62,6 @@ public class SimulationFactoryImpl implements SimulationFactory {
                 turnActions,
                 mapRenderer,
                 hintRenderer,
-                endCondition,
                 sleeper
         );
     }

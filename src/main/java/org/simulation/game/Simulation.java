@@ -31,7 +31,6 @@ public class Simulation {
                       List<Action> turnActions,
                       MapRenderer mapRenderer,
                       HintRenderer hintRenderer,
-                      SimulationEndCondition endCondition,
                       Sleeper sleeper) {
 
         this.gameMap = Objects.requireNonNull(gameMap, "gameMap must not be null");
@@ -39,8 +38,8 @@ public class Simulation {
         this.turnActions = Objects.requireNonNull(turnActions, "turnActions must not be null");
         this.mapRenderer = Objects.requireNonNull(mapRenderer, "mapRenderer must not be null");
         this.hintRenderer = Objects.requireNonNull(hintRenderer, "hintRenderer must not be null");
-        this.endCondition = Objects.requireNonNull(endCondition, "endCondition must not be null");
         this.sleeper = Objects.requireNonNull(sleeper, "sleeper must not be null");
+        this.endCondition = new SimulationEndCondition();
     }
 
     public void startSimulation() {
