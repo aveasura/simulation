@@ -18,33 +18,44 @@ public class RandomFreePositionGenerator {
         this.random = Objects.requireNonNull(random, "random must not be null");
     }
 
-    public List<Position> generate(GameMap gameMap, int entitiesToSpawn) {
-        Set<Position> positions = new HashSet<>();
+    public List<Position> generate(GameMap gameMap, int count) {
+        if (count < 0) {
+            throw new IllegalArgumentException("count must not be negative");
+        }
 
-        if (!hasEnoughFreeCells(gameMap, entitiesToSpawn)) {
+        if (!hasEnoughFreeCells(gameMap, count)) {
             throw new IllegalStateException("Not enough free cells to spawn all entities.");
         }
 
-        while (positions.size() < entitiesToSpawn) {
-            int x = random.nextInt(gameMap.getWidth());
-            int y = random.nextInt(gameMap.getHeight());
+        Set<Position> positions = new HashSet<>();
+        int width = gameMap.getWidth();
+        int height = gameMap.getHeight();
+
+        while (positions.size() < count) {
+            int x = getRandomCoordinate(width);
+            int y = getRandomCoordinate(height);
 
             Position position = new Position(x, y);
-            if (gameMap.isOccupied(position)) {
-                continue;
+            if (isPositionAvailable(gameMap, position)) {
+                positions.add(position);
             }
-
-            positions.add(position);
         }
 
         return new ArrayList<>(positions);
     }
 
-    private boolean hasEnoughFreeCells(GameMap gameMap, int entitiesToSpawn) {
+    private boolean hasEnoughFreeCells(GameMap gameMap, int count) {
         int totalCells = gameMap.getMapArea();
-        int occupied = gameMap.getEntitiesCount();
+        int occupied = gameMap.toMap().size();
         int free = totalCells - occupied;
+        return free >= count;
+    }
 
-        return free >= entitiesToSpawn;
+    private int getRandomCoordinate(int bound) {
+        return random.nextInt(bound);
+    }
+
+    private boolean isPositionAvailable(GameMap gameMap, Position position) {
+        return !gameMap.isOccupied(position);
     }
 }

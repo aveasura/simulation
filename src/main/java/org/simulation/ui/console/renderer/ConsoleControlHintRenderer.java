@@ -1,6 +1,6 @@
-package org.simulation.console.renderer;
+package org.simulation.ui.console.renderer;
 
-import org.simulation.console.Output;
+import org.simulation.ui.console.output.Output;
 
 import java.util.Objects;
 
@@ -19,7 +19,12 @@ public class ConsoleControlHintRenderer implements HintRenderer {
     }
 
     @Override
-    public void render() {
+    public void renderControlHints() {
         output.println(CONTROLS_HINTS);
+    }
+
+    @Override
+    public void renderStep(int step) {
+        output.println("Ход: " + step);
     }
 }

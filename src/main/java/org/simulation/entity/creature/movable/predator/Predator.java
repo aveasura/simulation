@@ -1,37 +1,50 @@
 package org.simulation.entity.creature.movable.predator;
 
 import org.simulation.entity.Entity;
-import org.simulation.entity.EntityType;
 import org.simulation.entity.creature.Creature;
-import org.simulation.entity.creature.movable.herbivore.Herbivore;
 import org.simulation.game.GameMap;
 import org.simulation.game.Position;
 
-public abstract class Predator extends Creature {
-    protected final int attackDamage;
+import java.util.Set;
 
-    protected Predator(EntityType type, int speed, int healthPoint, int attackDamage) {
-        super(type, speed, healthPoint);
+public abstract class Predator extends Creature {
+
+    private final int attackDamage;
+
+    protected Predator(int speed, int healthPoint, int attackDamage) {
+        super(speed, healthPoint);
         this.attackDamage = attackDamage;
     }
 
     @Override
-    public boolean isFood(Entity entity) {
-        return entity instanceof Herbivore;
+    public final boolean isFood(Entity entity) {
+        return supportsPrey(entity);
     }
 
     @Override
-    protected void interactWithTarget(GameMap gameMap, Position finalTarget, Entity entityTarget) {
-        if (entityTarget instanceof Herbivore herbivore) {
-            this.attack(herbivore);
+    protected final void interactWithTarget(GameMap gameMap, Position targetPosition, Entity targetEntity) {
+        if (!supportsPrey(targetEntity)) {
+            throw new IllegalStateException(
+                    getClass().getSimpleName() + " cannot interact with non-prey target: "
+                            + targetEntity.getClass().getSimpleName());
+        }
 
-            if (!herbivore.isAlive()) {
-                gameMap.removeEntity(finalTarget);
-            }
+        Creature prey = (Creature) targetEntity;
+        attack(prey);
+
+        if (!prey.isAlive()) {
+            gameMap.remove(targetPosition);
         }
     }
 
-    public void attack(Creature target) {
+    protected abstract Set<Class<? extends Creature>> preyTypes();
+
+    private boolean supportsPrey(Entity entity) {
+        return preyTypes().stream()
+                .anyMatch(preyType -> preyType.isInstance(entity));
+    }
+
+    private void attack(Creature target) {
         target.takeDamage(this.attackDamage);
     }
 }

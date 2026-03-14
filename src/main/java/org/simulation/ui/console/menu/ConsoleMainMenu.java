@@ -1,7 +1,8 @@
-package org.simulation.console;
+package org.simulation.ui.console.menu;
 
-import org.simulation.console.renderer.MainMenuRenderer;
+import org.simulation.ui.console.renderer.MainMenuRenderer;
 import org.simulation.game.runner.Runner;
+import org.simulation.ui.console.input.InputProvider;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -57,7 +58,7 @@ public class ConsoleMainMenu implements Menu {
 
     private void exit() {
         runner.stop();
-        renderer.printExitMessage();
+        renderer.renderExitMessage();
         exitRequested = true;
     }
 
@@ -66,7 +67,7 @@ public class ConsoleMainMenu implements Menu {
                 input,
                 commandsByKey,
                 renderer::renderMenu,
-                renderer::printInvalidChoice,
+                renderer::renderInvalidChoice,
                 this::handleInputClosed,
                 () -> exitRequested,
                 () -> {
@@ -76,6 +77,6 @@ public class ConsoleMainMenu implements Menu {
 
     private void handleInputClosed() {
         runner.stop();
-        renderer.printInputClosed();
+        renderer.renderInputClosed();
     }
 }

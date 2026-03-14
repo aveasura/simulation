@@ -1,6 +1,6 @@
-package org.simulation.console.renderer;
+package org.simulation.ui.console.renderer;
 
-import org.simulation.console.Output;
+import org.simulation.ui.console.output.Output;
 import org.simulation.entity.Entity;
 import org.simulation.game.GameMap;
 import org.simulation.game.Position;
@@ -11,20 +11,22 @@ import java.util.Objects;
 public class ConsoleMapRenderer implements MapRenderer {
 
     private static final String EMPTY_CELL = " - ";
+    private static final String FORMAT_SYMBOL_PATTERN = " %s ";
 
     private final Output output;
+    private final EntitySymbolProvider symbolProvider;
 
-    public ConsoleMapRenderer(Output output) {
+    public ConsoleMapRenderer(Output output, EntitySymbolProvider symbolProvider) {
         this.output = Objects.requireNonNull(output, "output must not be null");
+        this.symbolProvider = Objects.requireNonNull(symbolProvider, "symbolProvider must not be null");
     }
 
     @Override
-    public void render(GameMap gameMap, int step) {
-        Map<Position, Entity> entities = gameMap.getEntities();
+    public void render(GameMap gameMap) {
+        Map<Position, Entity> entities = gameMap.toMap();
         int mapWidth = gameMap.getWidth();
         int mapHeight = gameMap.getHeight();
 
-        output.println("Ход: " + step);
         for (int height = 0; height < mapHeight; height++) {
             renderRow(mapWidth, entities, height);
         }
@@ -47,12 +49,11 @@ public class ConsoleMapRenderer implements MapRenderer {
     }
 
     private String getEntitySymbol(Entity entity) {
-        return switch (entity.getType()) {
-            case FOX -> " F ";
-            case RABBIT -> " R ";
-            case GRASS -> " G ";
-            case TREE -> " T ";
-            case MOUNTAIN -> " M ";
-        };
+        String symbol = symbolProvider.getSymbol(entity);
+        return formatSymbol(symbol);
+    }
+
+    private String formatSymbol(String symbol) {
+        return FORMAT_SYMBOL_PATTERN.formatted(symbol);
     }
 }

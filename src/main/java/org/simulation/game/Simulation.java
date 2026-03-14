@@ -1,8 +1,8 @@
 package org.simulation.game;
 
 import org.simulation.action.Action;
-import org.simulation.console.renderer.HintRenderer;
-import org.simulation.console.renderer.MapRenderer;
+import org.simulation.ui.console.renderer.HintRenderer;
+import org.simulation.ui.console.renderer.MapRenderer;
 import org.simulation.sleeper.Sleeper;
 
 import java.util.List;
@@ -31,7 +31,6 @@ public class Simulation {
                       List<Action> turnActions,
                       MapRenderer mapRenderer,
                       HintRenderer hintRenderer,
-                      SimulationEndCondition endCondition,
                       Sleeper sleeper) {
 
         this.gameMap = Objects.requireNonNull(gameMap, "gameMap must not be null");
@@ -39,8 +38,8 @@ public class Simulation {
         this.turnActions = Objects.requireNonNull(turnActions, "turnActions must not be null");
         this.mapRenderer = Objects.requireNonNull(mapRenderer, "mapRenderer must not be null");
         this.hintRenderer = Objects.requireNonNull(hintRenderer, "hintRenderer must not be null");
-        this.endCondition = Objects.requireNonNull(endCondition, "endCondition must not be null");
         this.sleeper = Objects.requireNonNull(sleeper, "sleeper must not be null");
+        this.endCondition = new SimulationEndCondition();
     }
 
     public void startSimulation() {
@@ -91,7 +90,7 @@ public class Simulation {
 
     private boolean finishIfNeeded(boolean turnChanged) {
         if (endCondition.isFinished(gameMap, turnChanged)) {
-            mapRenderer.render(gameMap, step);
+            mapRenderer.render(gameMap);
             running = false;
             return true;
         }
@@ -99,15 +98,17 @@ public class Simulation {
     }
 
     private void renderCurrentState() {
-        mapRenderer.render(gameMap, step);
-        hintRenderer.render();
+        hintRenderer.renderStep(step);
+        mapRenderer.render(gameMap);
+        hintRenderer.renderControlHints();
     }
 
     private boolean executeActions(List<Action> actions) {
         boolean hadChanges = false;
 
         for (Action action : actions) {
-            boolean changed = action.execute(gameMap);
+            boolean changed = true; // TODO: стоит временная заглушка
+            action.execute(gameMap);
             if (changed) {
                 hadChanges = true;
             }

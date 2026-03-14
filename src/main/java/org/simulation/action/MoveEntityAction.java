@@ -3,14 +3,12 @@ package org.simulation.action;
 import org.simulation.entity.Entity;
 import org.simulation.entity.creature.Creature;
 import org.simulation.game.GameMap;
-import org.simulation.game.Position;
 import org.simulation.path.PathFinder;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.function.Predicate;
 
 public class MoveEntityAction implements Action {
 
@@ -21,41 +19,29 @@ public class MoveEntityAction implements Action {
     }
 
     @Override
-    public boolean execute(GameMap gameMap) {
-        boolean turnHadChanges = false;
-
-        Map<Position, Entity> snapshot = gameMap.getEntities();
-
-        for (Map.Entry<Position, Entity> entry : snapshot.entrySet()) {
-            Position currentPosition = entry.getKey();
-            Entity entity = entry.getValue();
-
-            Entity actualEntity = gameMap.getAt(currentPosition);
-            if (actualEntity != entity) {
+    public void execute(GameMap gameMap) {
+        List<Creature> creatures = getCreaturesSnapshot(gameMap);
+        for (Creature creature : creatures) {
+            if (!gameMap.containsEntity(creature)) {
                 continue;
             }
 
-            if (entity instanceof Creature creature) {
-                Predicate<Position> isTarget = position -> {
-                    if (!gameMap.isOccupied(position)) {
-                        return false;
-                    }
+            creature.makeMove(gameMap, pathFinder);
+        }
+    }
 
-                    Entity target = gameMap.getAt(position);
-                    return creature.isFood(target);
-                };
+    private List<Creature> getCreaturesSnapshot(GameMap gameMap) {
+        List<Creature> creatures = new ArrayList<>();
+        Collection<Entity> entities = gameMap.toMap().values();
 
-                Predicate<Position> canStep = position -> !gameMap.isOccupied(position) || isTarget.test(position);
-
-                List<Position> path = pathFinder.find(gameMap, currentPosition, isTarget, canStep);
-
-                boolean changed = creature.makeMove(gameMap, currentPosition, path);
-                if (changed) {
-                    turnHadChanges = true;
-                }
+        for (Entity entity : entities) {
+            if (!(entity instanceof Creature creature)) {
+                continue;
             }
+
+            creatures.add(creature);
         }
 
-        return turnHadChanges;
+        return creatures;
     }
 }

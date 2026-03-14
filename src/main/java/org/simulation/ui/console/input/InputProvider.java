@@ -1,4 +1,4 @@
-package org.simulation.console;
+package org.simulation.ui.console.input;
 
 public interface InputProvider extends AutoCloseable {
 

@@ -1,27 +1,38 @@
 package org.simulation.entity.creature.movable.herbivore;
 
 import org.simulation.entity.Entity;
-import org.simulation.entity.EntityType;
 import org.simulation.entity.creature.Creature;
-import org.simulation.entity.immovable.Grass;
 import org.simulation.game.GameMap;
 import org.simulation.game.Position;
 
+import java.util.Set;
+
 public abstract class Herbivore extends Creature {
 
-    protected Herbivore(EntityType type, int speed, int healthPoint) {
-        super(type, speed, healthPoint);
+    protected Herbivore(int speed, int healthPoint) {
+        super(speed, healthPoint);
     }
 
     @Override
-    public boolean isFood(Entity entity) {
-        return entity instanceof Grass;
+    public final boolean isFood(Entity entity) {
+        return supportsFood(entity);
     }
 
     @Override
-    protected void interactWithTarget(GameMap gameMap, Position finalTarget, Entity entityTarget) {
-        if (entityTarget instanceof Grass) {
-            gameMap.removeEntity(finalTarget);
+    protected final void interactWithTarget(GameMap gameMap, Position targetPosition, Entity targetEntity) {
+        if (!supportsFood(targetEntity)) {
+            throw new IllegalStateException(
+                    getClass().getSimpleName() + " cannot interact with non-food target: "
+                            + targetEntity.getClass().getSimpleName());
         }
+
+        gameMap.remove(targetPosition);
+    }
+
+    protected abstract Set<Class<? extends Entity>> foodTypes();
+
+    private boolean supportsFood(Entity entity) {
+        return foodTypes().stream()
+                .anyMatch(foodType -> foodType.isInstance(entity));
     }
 }

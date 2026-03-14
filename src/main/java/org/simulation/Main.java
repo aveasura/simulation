@@ -1,20 +1,22 @@
 package org.simulation;
 
-import org.simulation.console.ConsoleControlMenu;
-import org.simulation.console.ConsoleInputProvider;
-import org.simulation.console.ConsoleMainMenu;
-import org.simulation.console.ConsoleOutput;
-import org.simulation.console.InputProvider;
-import org.simulation.console.Menu;
-import org.simulation.console.Output;
-import org.simulation.console.renderer.ConsoleControlMenuRenderer;
-import org.simulation.console.renderer.ConsoleControlHintRenderer;
-import org.simulation.console.renderer.ConsoleMainMenuRenderer;
-import org.simulation.console.renderer.ConsoleMapRenderer;
-import org.simulation.console.renderer.ControlMenuRenderer;
-import org.simulation.console.renderer.HintRenderer;
-import org.simulation.console.renderer.MainMenuRenderer;
-import org.simulation.console.renderer.MapRenderer;
+import org.simulation.ui.console.menu.ConsoleControlMenu;
+import org.simulation.ui.console.input.ConsoleInputProvider;
+import org.simulation.ui.console.menu.ConsoleMainMenu;
+import org.simulation.ui.console.output.ConsoleOutput;
+import org.simulation.ui.console.renderer.DefaultEntitySymbolProvider;
+import org.simulation.ui.console.renderer.EntitySymbolProvider;
+import org.simulation.ui.console.input.InputProvider;
+import org.simulation.ui.console.menu.Menu;
+import org.simulation.ui.console.output.Output;
+import org.simulation.ui.console.renderer.ConsoleControlMenuRenderer;
+import org.simulation.ui.console.renderer.ConsoleControlHintRenderer;
+import org.simulation.ui.console.renderer.ConsoleMainMenuRenderer;
+import org.simulation.ui.console.renderer.ConsoleMapRenderer;
+import org.simulation.ui.console.renderer.ControlMenuRenderer;
+import org.simulation.ui.console.renderer.HintRenderer;
+import org.simulation.ui.console.renderer.MainMenuRenderer;
+import org.simulation.ui.console.renderer.MapRenderer;
 import org.simulation.factory.EntityFactory;
 import org.simulation.factory.EntityFactoryImpl;
 import org.simulation.factory.SimulationFactory;
@@ -35,7 +37,8 @@ public class Main {
     public static void main(String[] args) {
 
         Output output = new ConsoleOutput();
-        MapRenderer mapRenderer = new ConsoleMapRenderer(output);
+        EntitySymbolProvider symbolProvider = new DefaultEntitySymbolProvider();
+        MapRenderer mapRenderer = new ConsoleMapRenderer(output, symbolProvider);
         EntityFactory entityFactory = new EntityFactoryImpl();
         NeighborFinder neighborFinder = new NeighborFinderFourDirs();
         HintRenderer hintRenderer = new ConsoleControlHintRenderer(output);

@@ -5,14 +5,17 @@ import org.simulation.entity.creature.movable.herbivore.Herbivore;
 import org.simulation.entity.creature.movable.predator.Predator;
 import org.simulation.entity.immovable.Grass;
 
-public class SimulationEndCondition {
+import java.util.Collection;
+
+public final class SimulationEndCondition {
 
     public boolean isFinished(GameMap gameMap, boolean turnChanged) {
         boolean hasPredators = false;
         boolean hasHerbivores = false;
         boolean hasGrass = false;
 
-        for (Entity entity : gameMap.getEntities().values()) {
+        Collection<Entity> entities = gameMap.toMap().values();
+        for (Entity entity : entities) {
 
             if (entity instanceof Predator) {
                 hasPredators = true;
