@@ -50,18 +50,18 @@ public class ConsoleControlMenu implements Menu {
 
     private void pause() {
         runner.pause();
-        renderer.printPaused();
+        renderer.renderPaused();
     }
 
     private void resume() {
         runner.resume();
-        renderer.printResumed();
+        renderer.renderResumed();
     }
 
     private void stopByUser() {
         stoppedByUser = true;
         runner.stop();
-        renderer.printStoppedByUser();
+        renderer.renderStoppedByUser();
     }
 
     private MenuLoop createMenuLoop(Map<String, Runnable> commandsByKey) {
@@ -69,7 +69,7 @@ public class ConsoleControlMenu implements Menu {
                 input,
                 commandsByKey,
                 () -> {},
-                renderer::printInvalidChoice,
+                renderer::renderInvalidChoice,
                 this::handleInputClosed,
                 this::shouldExit,
                 this::handleExit
@@ -78,7 +78,7 @@ public class ConsoleControlMenu implements Menu {
 
     private void handleInputClosed() {
         runner.stop();
-        renderer.printInputClosed();
+        renderer.renderInputClosed();
     }
 
     private boolean shouldExit() {
@@ -87,7 +87,7 @@ public class ConsoleControlMenu implements Menu {
 
     private void handleExit() {
         if (!stoppedByUser) {
-            renderer.printTerminalStateReached();
+            renderer.renderTerminalStateReached();
         }
     }
 }

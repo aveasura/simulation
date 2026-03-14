@@ -57,7 +57,7 @@ public class ConsoleMainMenu implements Menu {
 
     private void exit() {
         runner.stop();
-        renderer.printExitMessage();
+        renderer.renderExitMessage();
         exitRequested = true;
     }
 
@@ -66,7 +66,7 @@ public class ConsoleMainMenu implements Menu {
                 input,
                 commandsByKey,
                 renderer::renderMenu,
-                renderer::printInvalidChoice,
+                renderer::renderInvalidChoice,
                 this::handleInputClosed,
                 () -> exitRequested,
                 () -> {
@@ -76,6 +76,6 @@ public class ConsoleMainMenu implements Menu {
 
     private void handleInputClosed() {
         runner.stop();
-        renderer.printInputClosed();
+        renderer.renderInputClosed();
     }
 }

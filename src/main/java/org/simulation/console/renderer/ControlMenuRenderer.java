@@ -2,15 +2,15 @@ package org.simulation.console.renderer;
 
 public interface ControlMenuRenderer {
 
-    void printPaused();
+    void renderPaused();
 
-    void printResumed();
+    void renderResumed();
 
-    void printStoppedByUser();
+    void renderStoppedByUser();
 
-    void printInvalidChoice();
+    void renderInvalidChoice();
 
-    void printInputClosed();
+    void renderInputClosed();
 
-    void printTerminalStateReached();
+    void renderTerminalStateReached();
 }

@@ -58,17 +58,17 @@ public class ConsoleMainMenuRenderer implements MainMenuRenderer {
     }
 
     @Override
-    public void printExitMessage() {
+    public void renderExitMessage() {
         output.println("Выход...");
     }
 
     @Override
-    public void printInvalidChoice() {
+    public void renderInvalidChoice() {
         output.println("Неправильный ввод: выберите и введите цифру из предложенных в главном меню");
     }
 
     @Override
-    public void printInputClosed() {
+    public void renderInputClosed() {
         output.println("Поток ввода закрыт. Приложение закрывается.");
     }
 }

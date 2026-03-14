@@ -6,9 +6,9 @@ public interface MainMenuRenderer {
 
     void renderRules();
 
-    void printExitMessage();
+    void renderExitMessage();
 
-    void printInvalidChoice();
+    void renderInvalidChoice();
 
-    void printInputClosed();
+    void renderInputClosed();
 }
