@@ -12,7 +12,7 @@ public class SimulationEndCondition {
         boolean hasHerbivores = false;
         boolean hasGrass = false;
 
-        for (Entity entity : gameMap.getEntities().values()) {
+        for (Entity entity : gameMap.toMap().values()) {
 
             if (entity instanceof Predator) {
                 hasPredators = true;

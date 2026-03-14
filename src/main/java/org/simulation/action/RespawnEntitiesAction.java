@@ -28,7 +28,7 @@ public class RespawnEntitiesAction implements Action {
     }
 
     @Override
-    public boolean execute(GameMap gameMap) {
+    public void execute(GameMap gameMap) {
         EntityCounts counts = countEntities(gameMap);
 
         int missingHerbivores = Math.max(0, MIN_HERBIVORES_COUNT - counts.herbivores());
@@ -44,13 +44,11 @@ public class RespawnEntitiesAction implements Action {
         addEntities(entitiesToSpawn, EntityType.FOX, missingPredators);
 
         if (entitiesToSpawn.isEmpty()) {
-            return false;
+            return;
         }
 
         List<Position> positions = positionGenerator.generate(gameMap, entitiesToSpawn.size());
         placeEntities(gameMap, positions, entitiesToSpawn);
-
-        return true;
     }
 
     private EntityCounts countEntities(GameMap gameMap) {
@@ -58,7 +56,7 @@ public class RespawnEntitiesAction implements Action {
         int herbivoreCount = 0;
         int grassCount = 0;
 
-        for (Entity entity : gameMap.getEntities().values()) {
+        for (Entity entity : gameMap.toMap().values()) {
             if (entity instanceof Predator) {
                 predatorCount++;
             } else if (entity instanceof Herbivore) {
@@ -84,7 +82,7 @@ public class RespawnEntitiesAction implements Action {
         }
 
         for (int i = 0; i < positions.size(); i++) {
-            gameMap.place(positions.get(i), entities.get(i));
+            gameMap.put(positions.get(i), entities.get(i));
         }
     }
 

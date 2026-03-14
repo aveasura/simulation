@@ -20,7 +20,7 @@ public class ConsoleMapRenderer implements MapRenderer {
 
     @Override
     public void render(GameMap gameMap, int step) {
-        Map<Position, Entity> entities = gameMap.getEntities();
+        Map<Position, Entity> entities = gameMap.toMap();
         int mapWidth = gameMap.getWidth();
         int mapHeight = gameMap.getHeight();
 

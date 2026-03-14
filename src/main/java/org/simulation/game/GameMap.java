@@ -14,14 +14,34 @@ public class GameMap {
 
     public GameMap(int width, int height) {
         if (width <= 0 || height <= 0) {
-            throw new IllegalArgumentException("Invalid map size: width=" + width + ", height=" + height);
+            throw new IllegalArgumentException("Invalid map size: width = " + width + ", height = " + height);
         }
         this.width = width;
         this.height = height;
     }
 
-    public void place(Position position, Entity entity) {
+    public Map<Position, Entity> toMap() {
+        return new HashMap<>(entities);
+    }
+
+    public Entity get(Position position) {
         validateInside(position);
+        return entities.get(position);
+    }
+
+    public Position getPosition(Entity entity) {
+        for (Map.Entry<Position, Entity> entry : entities.entrySet()) {
+            if (entry.getValue() == entity) {
+                return entry.getKey();
+            }
+        }
+
+        throw new IllegalStateException("Entity is not present on the map: " + entity);
+    }
+
+    public void put(Position position, Entity entity) {
+        validateInside(position);
+
         if (entities.containsKey(position)) {
             throw new IllegalArgumentException("Position already busy: " + position);
         }
@@ -29,49 +49,18 @@ public class GameMap {
         entities.put(position, entity);
     }
 
-    public void move(Position from, Position to) {
-        validateInside(from);
-        validateInside(to);
-        if (!entities.containsKey(from)) {
-            throw new IllegalStateException("No entity at source position: " + from);
+    public void remove(Position position) {
+        validateInside(position);
+
+        if (!entities.containsKey(position)) {
+            throw new IllegalStateException("No entity at source position: " + position);
         }
 
-        if (entities.containsKey(to)) {
-            throw new IllegalArgumentException("Position already busy: " + to);
-        }
-
-        Entity entity = entities.remove(from);
-        entities.put(to, entity);
+        entities.remove(position);
     }
 
-    public Map<Position, Entity> getEntities() {
-        return new HashMap<>(entities);
-    }
-
-    public Entity getAt(Position position) {
-        validateInside(position);
-        return entities.get(position);
-    }
-
-    public void removeEntity(Position target) {
-        validateInside(target);
-        entities.remove(target);
-    }
-
-    public boolean isInside(Position position) {
-        return position.x() >= 0
-                && position.y() >= 0
-                && position.x() < width
-                && position.y() < height;
-    }
-
-    public boolean isOccupied(Position position) {
-        validateInside(position);
-        return entities.containsKey(position);
-    }
-
-    public int getEntitiesCount() {
-        return entities.size();
+    public boolean containsEntity(Entity entity) {
+        return entities.containsValue(entity);
     }
 
     public int getHeight() {
@@ -84,6 +73,18 @@ public class GameMap {
 
     public int getMapArea() {
         return width * height;
+    }
+
+    public boolean isOccupied(Position position) {
+        validateInside(position);
+        return entities.containsKey(position);
+    }
+
+    public boolean isInside(Position position) {
+        return position.x() >= 0
+                && position.y() >= 0
+                && position.x() < width
+                && position.y() < height;
     }
 
     private void validateInside(Position position) {

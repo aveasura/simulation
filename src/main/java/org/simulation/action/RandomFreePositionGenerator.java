@@ -42,7 +42,7 @@ public class RandomFreePositionGenerator {
 
     private boolean hasEnoughFreeCells(GameMap gameMap, int entitiesToSpawn) {
         int totalCells = gameMap.getMapArea();
-        int occupied = gameMap.getEntitiesCount();
+        int occupied = gameMap.toMap().size();
         int free = totalCells - occupied;
 
         return free >= entitiesToSpawn;

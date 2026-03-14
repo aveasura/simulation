@@ -26,12 +26,12 @@ public abstract class Predator extends Creature {
             this.attack(herbivore);
 
             if (!herbivore.isAlive()) {
-                gameMap.removeEntity(finalTarget);
+                gameMap.remove(finalTarget);
             }
         }
     }
 
-    public void attack(Creature target) {
+    private void attack(Creature target) {
         target.takeDamage(this.attackDamage);
     }
 }

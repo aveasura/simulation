@@ -21,7 +21,7 @@ public abstract class Herbivore extends Creature {
     @Override
     protected void interactWithTarget(GameMap gameMap, Position finalTarget, Entity entityTarget) {
         if (entityTarget instanceof Grass) {
-            gameMap.removeEntity(finalTarget);
+            gameMap.remove(finalTarget);
         }
     }
 }

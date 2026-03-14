@@ -24,12 +24,11 @@ public class SpawnInitialEntitiesAction implements Action {
     }
 
     @Override
-    public boolean execute(GameMap gameMap) {
+    public void execute(GameMap gameMap) {
         List<Entity> entities = createInitialEntities();
         int entitiesCountToSpawn = entities.size();
         List<Position> randomPositions = positionGenerator.generate(gameMap, entitiesCountToSpawn);
         spawn(gameMap, randomPositions, entities);
-        return true;
     }
 
     public void spawn(GameMap gameMap, List<Position> positions, List<Entity> entities) {
@@ -40,7 +39,7 @@ public class SpawnInitialEntitiesAction implements Action {
         for (int i = 0; i < positions.size(); i++) {
             Position position = positions.get(i);
             Entity entity = entities.get(i);
-            gameMap.place(position, entity);
+            gameMap.put(position, entity);
         }
     }
 

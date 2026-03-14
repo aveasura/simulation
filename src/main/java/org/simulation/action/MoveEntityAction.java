@@ -6,11 +6,8 @@ import org.simulation.game.GameMap;
 import org.simulation.game.Position;
 import org.simulation.path.PathFinder;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Predicate;
 
 public class MoveEntityAction implements Action {
 
@@ -21,41 +18,19 @@ public class MoveEntityAction implements Action {
     }
 
     @Override
-    public boolean execute(GameMap gameMap) {
-        boolean turnHadChanges = false;
+    public void execute(GameMap gameMap) {
+        Map<Position, Entity> entities = gameMap.toMap();
 
-        Map<Position, Entity> snapshot = gameMap.getEntities();
-
-        for (Map.Entry<Position, Entity> entry : snapshot.entrySet()) {
-            Position currentPosition = entry.getKey();
-            Entity entity = entry.getValue();
-
-            Entity actualEntity = gameMap.getAt(currentPosition);
-            if (actualEntity != entity) {
+        for (Entity entity : entities.values()) {
+            if (!(entity instanceof Creature creature)) {
                 continue;
             }
 
-            if (entity instanceof Creature creature) {
-                Predicate<Position> isTarget = position -> {
-                    if (!gameMap.isOccupied(position)) {
-                        return false;
-                    }
-
-                    Entity target = gameMap.getAt(position);
-                    return creature.isFood(target);
-                };
-
-                Predicate<Position> canStep = position -> !gameMap.isOccupied(position) || isTarget.test(position);
-
-                List<Position> path = pathFinder.find(gameMap, currentPosition, isTarget, canStep);
-
-                boolean changed = creature.makeMove(gameMap, currentPosition, path);
-                if (changed) {
-                    turnHadChanges = true;
-                }
+            if (!gameMap.containsEntity(creature)) {
+                continue;
             }
-        }
 
-        return turnHadChanges;
+            creature.makeMove(gameMap, pathFinder);
+        }
     }
 }

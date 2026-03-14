@@ -107,7 +107,8 @@ public class Simulation {
         boolean hadChanges = false;
 
         for (Action action : actions) {
-            boolean changed = action.execute(gameMap);
+            boolean changed = true; // TODO: стоит временная заглушка
+            action.execute(gameMap);
             if (changed) {
                 hadChanges = true;
             }
