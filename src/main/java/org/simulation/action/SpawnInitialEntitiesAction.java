@@ -1,7 +1,11 @@
 package org.simulation.action;
 
 import org.simulation.entity.Entity;
-import org.simulation.entity.EntityType;
+import org.simulation.entity.creature.movable.herbivore.Rabbit;
+import org.simulation.entity.creature.movable.predator.Fox;
+import org.simulation.entity.immovable.Grass;
+import org.simulation.entity.immovable.Mountain;
+import org.simulation.entity.immovable.Tree;
 import org.simulation.factory.EntityFactory;
 import org.simulation.game.GameMap;
 import org.simulation.game.Position;
@@ -46,28 +50,25 @@ public class SpawnInitialEntitiesAction implements Action {
     private List<Entity> createInitialEntities() {
         List<Entity> entities = new ArrayList<>();
 
-        entities.add(entityFactory.create(EntityType.RABBIT));
-        entities.add(entityFactory.create(EntityType.RABBIT));
-        entities.add(entityFactory.create(EntityType.RABBIT));
+        entities.add(entityFactory.create(Rabbit.class));
 
-        entities.add(entityFactory.create(EntityType.FOX));
+        entities.add(entityFactory.create(Fox.class));
 
-        entities.add(entityFactory.create(EntityType.GRASS));
-        entities.add(entityFactory.create(EntityType.GRASS));
-        entities.add(entityFactory.create(EntityType.GRASS));
+        entities.add(entityFactory.create(Grass.class));
 
-        entities.add(entityFactory.create(EntityType.TREE));
-        entities.add(entityFactory.create(EntityType.MOUNTAIN));
 
-        addEntities(entities, EntityType.TREE, EXTRA_TREES_COUNT);
-        addEntities(entities, EntityType.MOUNTAIN, EXTRA_MOUNTAINS_COUNT);
+        entities.add(entityFactory.create(Tree.class));
+        entities.add(entityFactory.create(Mountain.class));
+
+        addEntities(entities, Tree.class, EXTRA_TREES_COUNT);
+        addEntities(entities, Mountain.class, EXTRA_MOUNTAINS_COUNT);
 
         return entities;
     }
 
-    private void addEntities(List<Entity> target, EntityType type, int count) {
+    private void addEntities(List<Entity> target, Class<? extends Entity> entityClass, int count) {
         for (int i = 0; i < count; i++) {
-            target.add(entityFactory.create(type));
+            target.add(entityFactory.create(entityClass));
         }
     }
 }

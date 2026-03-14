@@ -1,8 +1,9 @@
 package org.simulation.action;
 
 import org.simulation.entity.Entity;
-import org.simulation.entity.EntityType;
 import org.simulation.entity.creature.movable.herbivore.Herbivore;
+import org.simulation.entity.creature.movable.herbivore.Rabbit;
+import org.simulation.entity.creature.movable.predator.Fox;
 import org.simulation.entity.creature.movable.predator.Predator;
 import org.simulation.entity.immovable.Grass;
 import org.simulation.factory.EntityFactory;
@@ -39,9 +40,10 @@ public class RespawnEntitiesAction implements Action {
         int missingPredators = Math.max(0, desiredPredators - counts.predators());
 
         List<Entity> entitiesToSpawn = new ArrayList<>();
-        addEntities(entitiesToSpawn, EntityType.RABBIT, missingHerbivores);
-        addEntities(entitiesToSpawn, EntityType.GRASS, missingGrass);
-        addEntities(entitiesToSpawn, EntityType.FOX, missingPredators);
+
+        addEntities(entitiesToSpawn, Rabbit.class, missingHerbivores);
+        addEntities(entitiesToSpawn, Grass.class, missingGrass);
+        addEntities(entitiesToSpawn, Fox.class, missingPredators);
 
         if (entitiesToSpawn.isEmpty()) {
             return;
@@ -69,9 +71,9 @@ public class RespawnEntitiesAction implements Action {
         return new EntityCounts(predatorCount, herbivoreCount, grassCount);
     }
 
-    private void addEntities(List<Entity> target, EntityType type, int count) {
+    private void addEntities(List<Entity> target, Class<? extends Entity> entityClass, int count) {
         for (int i = 0; i < count; i++) {
-            Entity entity = entityFactory.create(type);
+            Entity entity = entityFactory.create(entityClass);
             target.add(entity);
         }
     }

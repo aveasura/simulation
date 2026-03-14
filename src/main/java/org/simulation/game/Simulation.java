@@ -91,7 +91,7 @@ public class Simulation {
 
     private boolean finishIfNeeded(boolean turnChanged) {
         if (endCondition.isFinished(gameMap, turnChanged)) {
-            mapRenderer.render(gameMap, step);
+            mapRenderer.render(gameMap);
             running = false;
             return true;
         }
@@ -99,8 +99,9 @@ public class Simulation {
     }
 
     private void renderCurrentState() {
-        mapRenderer.render(gameMap, step);
-        hintRenderer.render();
+        hintRenderer.renderStep(step);
+        mapRenderer.render(gameMap);
+        hintRenderer.renderControlHints();
     }
 
     private boolean executeActions(List<Action> actions) {

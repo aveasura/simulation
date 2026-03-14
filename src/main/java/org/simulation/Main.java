@@ -4,6 +4,8 @@ import org.simulation.console.ConsoleControlMenu;
 import org.simulation.console.ConsoleInputProvider;
 import org.simulation.console.ConsoleMainMenu;
 import org.simulation.console.ConsoleOutput;
+import org.simulation.console.DefaultEntitySymbolProvider;
+import org.simulation.console.EntitySymbolProvider;
 import org.simulation.console.InputProvider;
 import org.simulation.console.Menu;
 import org.simulation.console.Output;
@@ -35,7 +37,8 @@ public class Main {
     public static void main(String[] args) {
 
         Output output = new ConsoleOutput();
-        MapRenderer mapRenderer = new ConsoleMapRenderer(output);
+        EntitySymbolProvider symbolProvider = new DefaultEntitySymbolProvider();
+        MapRenderer mapRenderer = new ConsoleMapRenderer(output, symbolProvider);
         EntityFactory entityFactory = new EntityFactoryImpl();
         NeighborFinder neighborFinder = new NeighborFinderFourDirs();
         HintRenderer hintRenderer = new ConsoleControlHintRenderer(output);
