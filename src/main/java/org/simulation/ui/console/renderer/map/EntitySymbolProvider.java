@@ -1,4 +1,4 @@
-package org.simulation.ui.console.renderer;
+package org.simulation.ui.console.renderer.map;
 
 import org.simulation.entity.Entity;
 
