@@ -1,10 +1,11 @@
 package org.simulation.factory;
 
 import org.simulation.action.Action;
-import org.simulation.action.MoveEntityAction;
-import org.simulation.action.RandomFreePositionGenerator;
-import org.simulation.action.RespawnEntitiesAction;
-import org.simulation.action.SpawnInitialEntitiesAction;
+import org.simulation.action.spawn.InitSpawnAction;
+import org.simulation.action.move.MoveAction;
+import org.simulation.action.spawn.RandomFreePositionGenerator;
+import org.simulation.action.spawn.RespawnAction;
+import org.simulation.action.spawn.SpawnAction;
 import org.simulation.ui.console.renderer.step.StepRenderer;
 import org.simulation.ui.console.renderer.map.MapRenderer;
 import org.simulation.game.GameMap;
@@ -46,13 +47,13 @@ public class SimulationFactoryImpl implements SimulationFactory {
 
         Random random = new Random();
         RandomFreePositionGenerator positionGenerator = new RandomFreePositionGenerator(random);
-        SpawnInitialEntitiesAction initialSpawn = new SpawnInitialEntitiesAction(entityFactory, positionGenerator);
+        SpawnAction initialSpawn = new InitSpawnAction(entityFactory, positionGenerator);
         List<Action> initialActions = List.of(initialSpawn);
 
         PathFinder pathFinder = new BfsPathFinder(neighborFinder);
-        MoveEntityAction moveEntityAction = new MoveEntityAction(pathFinder);
-        RespawnEntitiesAction respawnEntitiesAction = new RespawnEntitiesAction(positionGenerator, entityFactory);
-        List<Action> turnActions = List.of(moveEntityAction, respawnEntitiesAction);
+        MoveAction moveAction = new MoveAction(pathFinder);
+        SpawnAction respawnEntitiesAction = new RespawnAction(entityFactory, positionGenerator);
+        List<Action> turnActions = List.of(moveAction, respawnEntitiesAction);
 
         Sleeper sleeper = new ThreadSleeper();
 
