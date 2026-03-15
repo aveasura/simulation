@@ -1,17 +1,10 @@
-package org.simulation.ui.console.renderer;
+package org.simulation.ui.console.menu.main;
 
 import org.simulation.ui.console.output.Output;
 
 import java.util.Objects;
 
 public class ConsoleMainMenuRenderer implements MainMenuRenderer {
-
-    private static final String MAIN_MENU = """
-            Главное меню
-            1. Показать правила
-            2. Запустить симуляцию
-            3. Выход
-            """;
 
     private static final String RULES = """
             Правила симуляции
@@ -48,27 +41,7 @@ public class ConsoleMainMenuRenderer implements MainMenuRenderer {
     }
 
     @Override
-    public void renderMenu() {
-        output.println(MAIN_MENU);
-    }
-
-    @Override
     public void renderRules() {
         output.println(RULES);
-    }
-
-    @Override
-    public void renderExitMessage() {
-        output.println("Выход...");
-    }
-
-    @Override
-    public void renderInvalidChoice() {
-        output.println("Неправильный ввод: выберите и введите цифру из предложенных в главном меню");
-    }
-
-    @Override
-    public void renderInputClosed() {
-        output.println("Поток ввода закрыт. Приложение закрывается.");
     }
 }

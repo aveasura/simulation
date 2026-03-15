@@ -1,7 +1,6 @@
-package org.simulation.todoMenu.controller;
+package org.simulation.ui.console.menu.control;
 
 import org.simulation.game.runner.Runner;
-import org.simulation.ui.console.renderer.ControlMenuRenderer;
 
 public class ControlMenuController {
 

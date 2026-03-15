@@ -1,4 +1,4 @@
-package org.simulation.ui.console.renderer;
+package org.simulation.ui.console.menu.control;
 
 import org.simulation.ui.console.output.Output;
 
@@ -25,20 +25,5 @@ public class ConsoleControlMenuRenderer implements ControlMenuRenderer {
     @Override
     public void renderStoppedByUser() {
         output.println("Симуляция завершена пользователем.");
-    }
-
-    @Override
-    public void renderTerminalStateReached() {
-        output.println("Достигнуто конечное состояние, выход в главное меню.");
-    }
-
-    @Override
-    public void renderInvalidChoice() {
-        output.println("Выберите и введите цифру из предложенных");
-    }
-
-    @Override
-    public void renderInputClosed() {
-        output.println("Поток закрыт, симуляция завершается.");
     }
 }

@@ -5,8 +5,8 @@ import org.simulation.action.MoveEntityAction;
 import org.simulation.action.RandomFreePositionGenerator;
 import org.simulation.action.RespawnEntitiesAction;
 import org.simulation.action.SpawnInitialEntitiesAction;
-import org.simulation.ui.console.renderer.HintRenderer;
-import org.simulation.ui.console.renderer.MapRenderer;
+import org.simulation.ui.console.renderer.step.StepRenderer;
+import org.simulation.ui.console.renderer.map.MapRenderer;
 import org.simulation.game.GameMap;
 import org.simulation.game.Simulation;
 import org.simulation.game.SimulationMapConfig;
@@ -24,18 +24,18 @@ public class SimulationFactoryImpl implements SimulationFactory {
 
     private final SimulationMapConfig config;
     private final MapRenderer mapRenderer;
-    private final HintRenderer hintRenderer;
+    private final StepRenderer stepRenderer;
     private final EntityFactory entityFactory;
     private final NeighborFinder neighborFinder;
 
     public SimulationFactoryImpl(SimulationMapConfig config,
                                  MapRenderer mapRenderer,
-                                 HintRenderer hintRenderer,
+                                 StepRenderer stepRenderer,
                                  EntityFactory entityFactory,
                                  NeighborFinder neighborFinder) {
         this.config = Objects.requireNonNull(config, "config must not be null");
         this.mapRenderer = Objects.requireNonNull(mapRenderer, "mapRenderer must not be null");
-        this.hintRenderer = Objects.requireNonNull(hintRenderer, "hintRenderer must not be null");
+        this.stepRenderer = Objects.requireNonNull(stepRenderer, "stepRenderer must not be null");
         this.entityFactory = Objects.requireNonNull(entityFactory, "entityFactory must not be null");
         this.neighborFinder = Objects.requireNonNull(neighborFinder, "neighborFinder must not be null");
     }
@@ -61,7 +61,7 @@ public class SimulationFactoryImpl implements SimulationFactory {
                 initialActions,
                 turnActions,
                 mapRenderer,
-                hintRenderer,
+                stepRenderer,
                 sleeper
         );
     }

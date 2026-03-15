@@ -1,9 +1,9 @@
 package org.simulation.game;
 
 import org.simulation.action.Action;
-import org.simulation.ui.console.renderer.HintRenderer;
-import org.simulation.ui.console.renderer.MapRenderer;
 import org.simulation.sleeper.Sleeper;
+import org.simulation.ui.console.renderer.step.StepRenderer;
+import org.simulation.ui.console.renderer.map.MapRenderer;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,7 +22,7 @@ public class Simulation {
     private final List<Action> initialActions;
     private final List<Action> turnActions;
     private final MapRenderer mapRenderer;
-    private final HintRenderer hintRenderer;
+    private final StepRenderer stepRenderer;
     private final SimulationEndCondition endCondition;
     private final Sleeper sleeper;
 
@@ -30,14 +30,14 @@ public class Simulation {
                       List<Action> initialActions,
                       List<Action> turnActions,
                       MapRenderer mapRenderer,
-                      HintRenderer hintRenderer,
+                      StepRenderer stepRenderer,
                       Sleeper sleeper) {
 
         this.gameMap = Objects.requireNonNull(gameMap, "gameMap must not be null");
         this.initialActions = Objects.requireNonNull(initialActions, "initialActions must not be null");
         this.turnActions = Objects.requireNonNull(turnActions, "turnActions must not be null");
         this.mapRenderer = Objects.requireNonNull(mapRenderer, "mapRenderer must not be null");
-        this.hintRenderer = Objects.requireNonNull(hintRenderer, "hintRenderer must not be null");
+        this.stepRenderer = Objects.requireNonNull(stepRenderer, "stepRenderer must not be null");
         this.sleeper = Objects.requireNonNull(sleeper, "sleeper must not be null");
         this.endCondition = new SimulationEndCondition();
     }
@@ -98,9 +98,8 @@ public class Simulation {
     }
 
     private void renderCurrentState() {
-        hintRenderer.renderStep(step);
+        stepRenderer.render(step);
         mapRenderer.render(gameMap);
-        hintRenderer.renderControlHints();
     }
 
     private boolean executeActions(List<Action> actions) {

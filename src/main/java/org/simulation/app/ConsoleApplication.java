@@ -1,8 +1,9 @@
-package org.simulation.todoMenu;
+package org.simulation.app;
 
-import org.simulation.todoMenu.controller.MainMenuController;
+import org.simulation.ui.console.menu.Menu;
+import org.simulation.ui.console.menu.main.MainMenuController;
 
-public class ConsoleApplication {
+public class ConsoleApplication implements Application {
 
     private final Menu mainMenu;
     private final MainMenuController mainMenuController;

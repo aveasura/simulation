@@ -1,7 +1,6 @@
-package org.simulation.todoMenu.controller;
+package org.simulation.ui.console.menu.main;
 
 import org.simulation.game.runner.Runner;
-import org.simulation.ui.console.renderer.MainMenuRenderer;
 
 public class MainMenuController {
 
@@ -17,10 +16,6 @@ public class MainMenuController {
 
     public void showRules() {
         renderer.renderRules();
-    }
-
-    public void startSimulation() {
-        runner.start();
     }
 
     public void exit() {
