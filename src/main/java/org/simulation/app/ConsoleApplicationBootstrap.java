@@ -37,8 +37,8 @@ import java.util.Scanner;
 
 public final class ConsoleApplicationBootstrap {
 
-    private static final int DEFAULT_MAP_WIDTH = 10;
-    private static final int DEFAULT_MAP_HEIGHT = 10;
+    private static final int DEFAULT_MAP_WIDTH = 16;
+    private static final int DEFAULT_MAP_HEIGHT = 8;
 
     public Application create() {
         SimulationMapConfig simulationMapConfig =
@@ -128,8 +128,6 @@ public final class ConsoleApplicationBootstrap {
                 )
         );
 
-        Application application = new ConsoleApplication(mainMenu, mainMenuController);
-
-        return application;
+        return new ConsoleApplication(mainMenu, mainMenuController);
     }
 }

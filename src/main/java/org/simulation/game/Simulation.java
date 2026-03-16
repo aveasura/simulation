@@ -2,8 +2,8 @@ package org.simulation.game;
 
 import org.simulation.action.Action;
 import org.simulation.sleeper.Sleeper;
-import org.simulation.ui.console.renderer.step.StepRenderer;
 import org.simulation.ui.console.renderer.map.MapRenderer;
+import org.simulation.ui.console.renderer.step.StepRenderer;
 
 import java.util.List;
 import java.util.Objects;
@@ -23,7 +23,6 @@ public class Simulation {
     private final List<Action> turnActions;
     private final MapRenderer mapRenderer;
     private final StepRenderer stepRenderer;
-    private final SimulationEndCondition endCondition;
     private final Sleeper sleeper;
 
     public Simulation(GameMap gameMap,
@@ -39,7 +38,6 @@ public class Simulation {
         this.mapRenderer = Objects.requireNonNull(mapRenderer, "mapRenderer must not be null");
         this.stepRenderer = Objects.requireNonNull(stepRenderer, "stepRenderer must not be null");
         this.sleeper = Objects.requireNonNull(sleeper, "sleeper must not be null");
-        this.endCondition = new SimulationEndCondition();
     }
 
     public void startSimulation() {
@@ -58,13 +56,8 @@ public class Simulation {
 
         renderCurrentState();
 
-        boolean turnChanged = executeActions(turnActions);
+        executeActions(turnActions);
         step++;
-
-        boolean finished = finishIfNeeded(turnChanged);
-        if (finished) {
-            return;
-        }
 
         sleeper.sleep(TURN_DELAY_MS);
     }
@@ -88,31 +81,14 @@ public class Simulation {
         }
     }
 
-    private boolean finishIfNeeded(boolean turnChanged) {
-        if (endCondition.isFinished(gameMap, turnChanged)) {
-            mapRenderer.render(gameMap);
-            running = false;
-            return true;
-        }
-        return false;
-    }
-
     private void renderCurrentState() {
         stepRenderer.render(step);
         mapRenderer.render(gameMap);
     }
 
-    private boolean executeActions(List<Action> actions) {
-        boolean hadChanges = false;
-
+    private void executeActions(List<Action> actions) {
         for (Action action : actions) {
-            boolean changed = true; // TODO: стоит временная заглушка
             action.execute(gameMap);
-            if (changed) {
-                hadChanges = true;
-            }
         }
-
-        return hadChanges;
     }
 }

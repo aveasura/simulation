@@ -16,11 +16,11 @@ import java.util.Map;
 public abstract class SpawnAction implements Action {
 
     protected final static Map<Class<? extends Entity>, Integer> ENTITY_MAXIMUM_NUMBERS = Map.of(
-            Rabbit.class, 5,
-            Fox.class, 3,
-            Grass.class, 7,
-            Tree.class, 5,
-            Mountain.class, 5
+            Rabbit.class, 7,
+            Fox.class, 4,
+            Grass.class, 10,
+            Tree.class, 4,
+            Mountain.class, 4
     );
 
     private final EntityFactory factory;
