@@ -15,8 +15,8 @@ public class DefaultEntitySymbolProvider implements EntitySymbolProvider {
 
     private static final Map<Class<? extends Entity>, String> SYMBOLS = Map.of(
             Rabbit.class, "R",
-            Eagle.class, "F",
-            Carrot.class, "G",
+            Eagle.class, "E",
+            Carrot.class, "C",
             Tree.class, "T",
             Mountain.class, "M"
     );
