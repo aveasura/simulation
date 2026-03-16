@@ -40,8 +40,7 @@ public class RespawnAction extends SpawnAction {
         }
     }
 
-    // TODO: можно будет вынести и использовать для проверки simEndCondition
-    private int calculateEntityCount(GameMap gameMap, Class<? extends Entity> entityClass) {
+    private static int calculateEntityCount(GameMap gameMap, Class<? extends Entity> entityClass) {
         Collection<Entity> entities = gameMap.toMap().values();
         int count = 0;
 
