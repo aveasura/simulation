@@ -10,7 +10,6 @@ import java.util.Objects;
 
 public class ConsoleMapRenderer implements MapRenderer {
 
-    private static final String EMPTY_CELL = " - ";
     private static final String FORMAT_SYMBOL_PATTERN = " %s ";
 
     private final Output output;
@@ -45,11 +44,16 @@ public class ConsoleMapRenderer implements MapRenderer {
     private String getCellSymbol(Entity entity) {
         return entity != null
                 ? getEntitySymbol(entity)
-                : EMPTY_CELL;
+                : getEmptySymbol();
     }
 
     private String getEntitySymbol(Entity entity) {
         String symbol = symbolProvider.getSymbol(entity);
+        return formatSymbol(symbol);
+    }
+
+    private String getEmptySymbol() {
+        String symbol = symbolProvider.getEmptySymbol();
         return formatSymbol(symbol);
     }
 

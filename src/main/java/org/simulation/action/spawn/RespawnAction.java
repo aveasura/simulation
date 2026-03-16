@@ -2,8 +2,8 @@ package org.simulation.action.spawn;
 
 import org.simulation.entity.Entity;
 import org.simulation.entity.creature.movable.herbivore.Rabbit;
-import org.simulation.entity.creature.movable.predator.Fox;
-import org.simulation.entity.immovable.Grass;
+import org.simulation.entity.creature.movable.predator.Eagle;
+import org.simulation.entity.immovable.Carrot;
 import org.simulation.factory.EntityFactory;
 import org.simulation.game.GameMap;
 
@@ -14,8 +14,8 @@ public class RespawnAction extends SpawnAction {
 
     private static final Map<Class<? extends Entity>, Integer> ENTITY_MINIMUM_NUMBERS = Map.of(
             Rabbit.class, 3,
-            Fox.class, 1,
-            Grass.class, 4
+            Eagle.class, 1,
+            Carrot.class, 4
     );
 
     public RespawnAction(EntityFactory factory, RandomFreePositionGenerator positionGenerator) {

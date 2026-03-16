@@ -3,8 +3,8 @@ package org.simulation.action.spawn;
 import org.simulation.action.Action;
 import org.simulation.entity.Entity;
 import org.simulation.entity.creature.movable.herbivore.Rabbit;
-import org.simulation.entity.creature.movable.predator.Fox;
-import org.simulation.entity.immovable.Grass;
+import org.simulation.entity.creature.movable.predator.Eagle;
+import org.simulation.entity.immovable.Carrot;
 import org.simulation.entity.immovable.Mountain;
 import org.simulation.entity.immovable.Tree;
 import org.simulation.factory.EntityFactory;
@@ -17,8 +17,8 @@ public abstract class SpawnAction implements Action {
 
     protected final static Map<Class<? extends Entity>, Integer> ENTITY_MAXIMUM_NUMBERS = Map.of(
             Rabbit.class, 7,
-            Fox.class, 4,
-            Grass.class, 10,
+            Eagle.class, 4,
+            Carrot.class, 10,
             Tree.class, 4,
             Mountain.class, 4
     );

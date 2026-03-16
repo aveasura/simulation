@@ -2,8 +2,8 @@ package org.simulation.factory;
 
 import org.simulation.entity.Entity;
 import org.simulation.entity.creature.movable.herbivore.Rabbit;
-import org.simulation.entity.creature.movable.predator.Fox;
-import org.simulation.entity.immovable.Grass;
+import org.simulation.entity.creature.movable.predator.Eagle;
+import org.simulation.entity.immovable.Carrot;
 import org.simulation.entity.immovable.Mountain;
 import org.simulation.entity.immovable.Tree;
 
@@ -14,8 +14,8 @@ public class EntityFactoryImpl implements EntityFactory {
 
     private final Map<Class<? extends Entity>, Supplier<? extends Entity>> creators = Map.of(
             Rabbit.class, Rabbit::new,
-            Fox.class, Fox::new,
-            Grass.class, Grass::new,
+            Eagle.class, Eagle::new,
+            Carrot.class, Carrot::new,
             Tree.class, Tree::new,
             Mountain.class, Mountain::new
     );

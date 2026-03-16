@@ -23,7 +23,7 @@ import org.simulation.ui.console.menu.main.MainMenuRenderer;
 import org.simulation.ui.console.output.ConsoleOutput;
 import org.simulation.ui.console.output.Output;
 import org.simulation.ui.console.renderer.map.ConsoleMapRenderer;
-import org.simulation.ui.console.renderer.map.DefaultEntitySymbolProvider;
+import org.simulation.ui.console.renderer.map.EntityEmojiProvider;
 import org.simulation.ui.console.renderer.map.EntitySymbolProvider;
 import org.simulation.ui.console.renderer.map.MapRenderer;
 import org.simulation.ui.console.renderer.step.ConsoleControlStepRenderer;
@@ -75,7 +75,7 @@ public final class ConsoleApplicationBootstrap {
         EntityFactory entityFactory = new EntityFactoryImpl();
         NeighborFinder neighborFinder = new NeighborFinderFourDirs();
 
-        EntitySymbolProvider symbolProvider = new DefaultEntitySymbolProvider();
+        EntitySymbolProvider symbolProvider = new EntityEmojiProvider();
 
         MapRenderer baseMapRenderer = new ConsoleMapRenderer(output, symbolProvider);
         MapRenderer mapRenderer = new MapWithControlMenuRenderer(
