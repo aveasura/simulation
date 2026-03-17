@@ -57,9 +57,13 @@ public class ConsoleMenu implements Menu {
     private boolean isValidChoice(String key) {
         try {
             int choice = Integer.parseInt(key);
-            return choice >= START_MENU_INDEX && choice < START_MENU_INDEX + actions.size();
+            return isChoiceInMenuRange(choice);
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    private boolean isChoiceInMenuRange(int choice) {
+        return choice >= START_MENU_INDEX && choice < START_MENU_INDEX + actions.size();
     }
 }
