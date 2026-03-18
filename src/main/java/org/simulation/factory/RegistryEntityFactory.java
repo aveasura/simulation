@@ -10,7 +10,7 @@ import org.simulation.entity.immovable.Tree;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class EntityFactoryImpl implements EntityFactory {
+public class RegistryEntityFactory implements EntityFactory {
 
     private final Map<Class<? extends Entity>, Supplier<? extends Entity>> creators = Map.of(
             Rabbit.class, Rabbit::new,

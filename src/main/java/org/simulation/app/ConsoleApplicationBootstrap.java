@@ -1,7 +1,7 @@
 package org.simulation.app;
 
 import org.simulation.factory.EntityFactory;
-import org.simulation.factory.EntityFactoryImpl;
+import org.simulation.factory.RegistryEntityFactory;
 import org.simulation.factory.SimulationFactory;
 import org.simulation.factory.SimulationFactoryImpl;
 import org.simulation.game.SimulationMapConfig;
@@ -72,7 +72,7 @@ public final class ConsoleApplicationBootstrap {
 
         MenuViewRenderer menuViewRenderer = new ConsoleMenuViewRenderer(output);
 
-        EntityFactory entityFactory = new EntityFactoryImpl();
+        EntityFactory entityFactory = new RegistryEntityFactory();
         NeighborFinder neighborFinder = new NeighborFinderFourDirs();
 
         EntitySymbolProvider symbolProvider = new EntityEmojiProvider();
