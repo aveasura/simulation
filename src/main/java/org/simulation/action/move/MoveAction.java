@@ -1,13 +1,10 @@
 package org.simulation.action.move;
 
 import org.simulation.action.Action;
-import org.simulation.entity.Entity;
 import org.simulation.entity.creature.Creature;
 import org.simulation.game.GameMap;
 import org.simulation.path.PathFinder;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,23 +25,6 @@ public class MoveAction implements Action {
     }
 
     private List<Creature> getCreatures(GameMap gameMap) {
-        List<Creature> creatures = new ArrayList<>();
-        Collection<Entity> entities = gameMap.toMap().values();
-
-        for (Entity entity : entities) {
-            if (!(entity instanceof Creature creature)) {
-                continue;
-            }
-
-            creatures.add(creature);
-        }
-
-        return creatures;
+        return gameMap.getEntitiesByType(Creature.class);
     }
-
-//    private List<Creature> getCreatures(GameMap gameMap) {
-//
-//        gameMap.getEntities(Creature.class);
-//
-//    }
 }
