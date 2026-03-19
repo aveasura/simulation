@@ -39,8 +39,6 @@ public class Simulation {
         this.mapRenderer = Objects.requireNonNull(mapRenderer, "mapRenderer must not be null");
         this.stepRenderer = Objects.requireNonNull(stepRenderer, "stepRenderer must not be null");
         this.sleeper = Objects.requireNonNull(sleeper, "sleeper must not be null");
-
-        executeActions(initialActions);
     }
 
     public void startSimulation() {
