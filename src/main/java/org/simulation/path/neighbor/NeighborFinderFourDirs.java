@@ -24,7 +24,7 @@ public class NeighborFinderFourDirs implements NeighborFinder {
                     current.x() + direction.x(),
                     current.y() + direction.y());
 
-            if (!gameMap.isInside(neighbor)) {
+            if (gameMap.isOutOfBounds(neighbor)) {
                 continue;
             }
 

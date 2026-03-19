@@ -2,7 +2,9 @@ package org.simulation.game;
 
 import org.simulation.entity.Entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GameMap {
@@ -24,12 +26,36 @@ public class GameMap {
         return new HashMap<>(entities);
     }
 
+    public <T extends Entity> List<T> getEntitiesByType(Class<T> entityClass) {
+        if (entityClass == null) {
+            throw new IllegalArgumentException("entityClass must not be null");
+        }
+
+        List<T> entitiesOfType = new ArrayList<>();
+
+        for (Entity entity : entities.values()) {
+            if (entityClass.isInstance(entity)) {
+                entitiesOfType.add(entityClass.cast(entity));
+            }
+        }
+
+        return entitiesOfType;
+    }
+
     public Entity get(Position position) {
-        validateInside(position);
-        return entities.get(position);
+        validatePosition(position);
+
+        Entity entity = entities.get(position);
+        if (entity == null) {
+            throw new IllegalStateException("No entity at position: " + position);
+        }
+
+        return entity;
     }
 
     public Position getPosition(Entity entity) {
+        validateEntity(entity);
+
         for (Map.Entry<Position, Entity> entry : entities.entrySet()) {
             if (entry.getValue() == entity) {
                 return entry.getKey();
@@ -40,17 +66,18 @@ public class GameMap {
     }
 
     public void put(Position position, Entity entity) {
-        validateInside(position);
+        validatePosition(position);
+        validateEntity(entity);
 
         if (entities.containsKey(position)) {
-            throw new IllegalArgumentException("Position already busy: " + position);
+            throw new IllegalStateException("Position already occupied: " + position);
         }
 
         entities.put(position, entity);
     }
 
     public void remove(Position position) {
-        validateInside(position);
+        validatePosition(position);
 
         if (!entities.containsKey(position)) {
             throw new IllegalStateException("No entity at source position: " + position);
@@ -59,8 +86,20 @@ public class GameMap {
         entities.remove(position);
     }
 
-    public boolean containsEntity(Entity entity) {
-        return entities.containsValue(entity);
+    public boolean isOccupied(Position position) {
+        validatePosition(position);
+        return entities.containsKey(position);
+    }
+
+    public boolean isOutOfBounds(Position position) {
+        if (position == null) {
+            throw new IllegalArgumentException("position must not be null");
+        }
+
+        return position.x() < 0
+                || position.y() < 0
+                || position.x() >= width
+                || position.y() >= height;
     }
 
     public int getHeight() {
@@ -71,25 +110,19 @@ public class GameMap {
         return width;
     }
 
-    public int getMapArea() {
-        return width * height;
-    }
+    private void validatePosition(Position position) {
+        if (position == null) {
+            throw new IllegalArgumentException("position must not be null");
+        }
 
-    public boolean isOccupied(Position position) {
-        validateInside(position);
-        return entities.containsKey(position);
-    }
-
-    public boolean isInside(Position position) {
-        return position.x() >= 0
-                && position.y() >= 0
-                && position.x() < width
-                && position.y() < height;
-    }
-
-    private void validateInside(Position position) {
-        if (!isInside(position)) {
+        if (isOutOfBounds(position)) {
             throw new IllegalArgumentException("Position is outside the map: " + position);
+        }
+    }
+
+    private void validateEntity(Entity entity) {
+        if (entity == null) {
+            throw new IllegalArgumentException("entity must not be null");
         }
     }
 }

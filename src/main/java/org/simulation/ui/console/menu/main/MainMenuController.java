@@ -9,9 +9,9 @@ public class MainMenuController {
     private final MainMenuRenderer renderer;
     private final Runner runner;
 
-    public MainMenuController(MainMenuRenderer renderer, Runner runner) {
-        this.renderer = renderer;
+    public MainMenuController(Runner runner, MainMenuRenderer renderer) {
         this.runner = runner;
+        this.renderer = renderer;
     }
 
     public void showRules() {

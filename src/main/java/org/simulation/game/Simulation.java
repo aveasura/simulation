@@ -41,15 +41,16 @@ public class Simulation {
     }
 
     public void startSimulation() {
-        executeActions(initialActions);
+        executeActions(initialActions); // todo в конструкторе
 
-        while (running) {
+        while (running) { // todo isRunning = true
             nextTurn();
+            sleeper.sleep(TURN_DELAY_MS); // todo
         }
     }
 
     public void nextTurn() {
-        waitWhilePaused();
+        waitWhilePaused(); // todo сделать по тз
         if (!running) {
             return;
         }
@@ -59,7 +60,6 @@ public class Simulation {
         executeActions(turnActions);
         step++;
 
-        sleeper.sleep(TURN_DELAY_MS);
     }
 
     public void pauseSimulation() {

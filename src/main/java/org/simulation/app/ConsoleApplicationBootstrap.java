@@ -98,7 +98,7 @@ public final class ConsoleApplicationBootstrap {
         MainMenuRenderer mainMenuRenderer = new ConsoleMainMenuRenderer(output);
         ControlMenuRenderer controlMenuRenderer = new ConsoleControlMenuRenderer(output);
 
-        MainMenuController mainMenuController = new MainMenuController(mainMenuRenderer, runner);
+        MainMenuController mainMenuController = new MainMenuController(runner, mainMenuRenderer);
         ControlMenuController controlMenuController = new ControlMenuController(runner, controlMenuRenderer);
 
         Menu controlMenu = new ConsoleMenu(

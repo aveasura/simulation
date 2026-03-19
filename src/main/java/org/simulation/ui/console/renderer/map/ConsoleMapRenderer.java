@@ -1,16 +1,15 @@
 package org.simulation.ui.console.renderer.map;
 
-import org.simulation.ui.console.output.Output;
 import org.simulation.entity.Entity;
 import org.simulation.game.GameMap;
 import org.simulation.game.Position;
+import org.simulation.ui.console.output.Output;
 
-import java.util.Map;
 import java.util.Objects;
 
 public class ConsoleMapRenderer implements MapRenderer {
 
-    private static final String FORMAT_SYMBOL_PATTERN = " %s ";
+    private static final String FORMAT_SYMBOL_TEMPLATE = " %s ";
 
     private final Output output;
     private final EntitySymbolProvider symbolProvider;
@@ -22,29 +21,28 @@ public class ConsoleMapRenderer implements MapRenderer {
 
     @Override
     public void render(GameMap gameMap) {
-        Map<Position, Entity> entities = gameMap.toMap();
-        int mapWidth = gameMap.getWidth();
-        int mapHeight = gameMap.getHeight();
+        int height = gameMap.getHeight();
+        int width = gameMap.getWidth();
 
-        for (int height = 0; height < mapHeight; height++) {
-            renderRow(mapWidth, entities, height);
+        for (int y = 0; y < height; y++) {
+            renderRow(y, width, gameMap);
         }
     }
 
-    private void renderRow(int mapWidth, Map<Position, Entity> entities, int height) {
-        for (int width = 0; width < mapWidth; width++) {
-            Position position = new Position(width, height);
-            Entity entity = entities.get(position);
-            String cellRepresentation = getCellSymbol(entity);
-            output.print(cellRepresentation);
+    private void renderRow(int y, int width, GameMap gameMap) {
+        for (int x = 0; x < width; x++) {
+            Position position = new Position(x, y);
+            if (gameMap.isOccupied(position)) {
+                Entity entity = gameMap.get(position);
+                String sprite = getEntitySymbol(entity);
+                output.print(sprite);
+            } else {
+                String emptySymbol = getEmptySymbol();
+                output.print(emptySymbol);
+            }
         }
+
         output.println();
-    }
-
-    private String getCellSymbol(Entity entity) {
-        return entity != null
-                ? getEntitySymbol(entity)
-                : getEmptySymbol();
     }
 
     private String getEntitySymbol(Entity entity) {
@@ -58,6 +56,6 @@ public class ConsoleMapRenderer implements MapRenderer {
     }
 
     private String formatSymbol(String symbol) {
-        return FORMAT_SYMBOL_PATTERN.formatted(symbol);
+        return FORMAT_SYMBOL_TEMPLATE.formatted(symbol);
     }
 }

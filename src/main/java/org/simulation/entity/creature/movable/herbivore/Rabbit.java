@@ -17,7 +17,7 @@ public class Rabbit extends Herbivore {
     }
 
     @Override
-    protected Set<Class<? extends Entity>> foodTypes() {
+    protected Set<Class<? extends Entity>> getFoodTypes() {
         return FOOD_TYPES;
     }
 }

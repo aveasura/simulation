@@ -29,10 +29,10 @@ public abstract class Herbivore extends Creature {
         gameMap.remove(targetPosition);
     }
 
-    protected abstract Set<Class<? extends Entity>> foodTypes();
+    protected abstract Set<Class<? extends Entity>> getFoodTypes();
 
     private boolean supportsFood(Entity entity) {
-        return foodTypes().stream()
+        return getFoodTypes().stream()
                 .anyMatch(foodType -> foodType.isInstance(entity));
     }
 }

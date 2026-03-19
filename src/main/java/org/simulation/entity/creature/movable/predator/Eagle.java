@@ -18,7 +18,7 @@ public class Eagle extends Predator {
     }
 
     @Override
-    protected Set<Class<? extends Creature>> preyTypes() {
+    protected Set<Class<? extends Creature>> getPreyTypes() {
         return PREY_TYPES;
     }
 }

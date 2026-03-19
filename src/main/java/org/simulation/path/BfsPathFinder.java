@@ -51,7 +51,7 @@ public class BfsPathFinder implements PathFinder {
             List<Position> neighbors = neighborFinder.find(gameMap, current);
             for (Position neighbor : neighbors) {
 
-                if (!gameMap.isInside(neighbor)) {
+                if (gameMap.isOutOfBounds(neighbor)) {
                     throw new IllegalStateException("BFS should not find a position that is outside the map.");
                 }
 

@@ -21,17 +21,13 @@ public class MoveAction implements Action {
 
     @Override
     public void execute(GameMap gameMap) {
-        List<Creature> creatures = getCreaturesSnapshot(gameMap);
+        List<Creature> creatures = getCreatures(gameMap);
         for (Creature creature : creatures) {
-            if (!gameMap.containsEntity(creature)) {
-                continue;
-            }
-
             creature.makeMove(gameMap, pathFinder);
         }
     }
 
-    private List<Creature> getCreaturesSnapshot(GameMap gameMap) {
+    private List<Creature> getCreatures(GameMap gameMap) {
         List<Creature> creatures = new ArrayList<>();
         Collection<Entity> entities = gameMap.toMap().values();
 
@@ -45,4 +41,10 @@ public class MoveAction implements Action {
 
         return creatures;
     }
+
+//    private List<Creature> getCreatures(GameMap gameMap) {
+//
+//        gameMap.getEntities(Creature.class);
+//
+//    }
 }

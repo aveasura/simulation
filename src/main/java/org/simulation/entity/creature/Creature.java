@@ -21,6 +21,10 @@ public abstract class Creature extends Entity implements Movable {
 
     @Override
     public final void makeMove(GameMap gameMap, PathFinder pathFinder) {
+        if (isDead()) {
+            return;
+        }
+
         Position currentPosition = gameMap.getPosition(this);
 
         List<Position> path = findPathToFood(gameMap, currentPosition, pathFinder);
@@ -50,8 +54,8 @@ public abstract class Creature extends Entity implements Movable {
         healthPoint = Math.max(0, healthPoint - attackDamage);
     }
 
-    public boolean isAlive() {
-        return healthPoint > 0;
+    public boolean isDead() {
+        return healthPoint <= 0;
     }
 
     public abstract boolean isFood(Entity entity);

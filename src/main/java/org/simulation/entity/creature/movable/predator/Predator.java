@@ -32,15 +32,15 @@ public abstract class Predator extends Creature {
         Creature prey = (Creature) targetEntity;
         attack(prey);
 
-        if (!prey.isAlive()) {
+        if (prey.isDead()) {
             gameMap.remove(targetPosition);
         }
     }
 
-    protected abstract Set<Class<? extends Creature>> preyTypes();
+    protected abstract Set<Class<? extends Creature>> getPreyTypes();
 
     private boolean supportsPrey(Entity entity) {
-        return preyTypes().stream()
+        return getPreyTypes().stream()
                 .anyMatch(preyType -> preyType.isInstance(entity));
     }
 

@@ -34,10 +34,18 @@ public final class RandomFreePositionGenerator {
     }
 
     private boolean hasFreeCell(GameMap gameMap) {
-        int totalCells = gameMap.getMapArea();
-        int occupied = gameMap.toMap().size();
-        int free = totalCells - occupied;
+        int totalCells = getMapArea(gameMap);
+        int occupiedCells = calculateOccupiedCells(gameMap);
+        int free = totalCells - occupiedCells;
         return free > 0;
+    }
+
+    private int getMapArea(GameMap gameMap) {
+        return gameMap.getHeight() * gameMap.getWidth();
+    }
+
+    private int calculateOccupiedCells(GameMap gameMap) {
+        return gameMap.toMap().size();
     }
 
     private int getRandomCoordinate(int bound) {
