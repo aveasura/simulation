@@ -1,8 +1,10 @@
 package org.simulation.action.spawn;
 
+import org.simulation.entity.Entity;
 import org.simulation.game.GameMap;
 import org.simulation.game.Position;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -45,7 +47,8 @@ public final class RandomFreePositionGenerator {
     }
 
     private int calculateOccupiedCells(GameMap gameMap) {
-        return gameMap.toMap().size();
+        List<Entity> entitiesByType = gameMap.getEntitiesByType(Entity.class);
+        return entitiesByType.size();
     }
 
     private int getRandomCoordinate(int bound) {

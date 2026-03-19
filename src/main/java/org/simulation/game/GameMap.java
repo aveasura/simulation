@@ -22,10 +22,6 @@ public class GameMap {
         this.height = height;
     }
 
-    public Map<Position, Entity> toMap() {
-        return new HashMap<>(entities);
-    }
-
     public <T extends Entity> List<T> getEntitiesByType(Class<T> entityClass) {
         if (entityClass == null) {
             throw new IllegalArgumentException("entityClass must not be null");

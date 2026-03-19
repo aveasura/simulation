@@ -7,7 +7,7 @@ import org.simulation.entity.immovable.Carrot;
 import org.simulation.factory.EntityFactory;
 import org.simulation.game.GameMap;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class RespawnAction extends SpawnAction {
@@ -40,16 +40,8 @@ public class RespawnAction extends SpawnAction {
         }
     }
 
-    private static int calculateEntityCount(GameMap gameMap, Class<? extends Entity> entityClass) {
-        Collection<Entity> entities = gameMap.toMap().values();
-        int count = 0;
-
-        for (Entity entity : entities) {
-            if (entityClass.isInstance(entity)) {
-                count++;
-            }
-        }
-
-        return count;
+    private int calculateEntityCount(GameMap gameMap, Class<? extends Entity> entityClass) {
+        List<? extends Entity> entitiesByType = gameMap.getEntitiesByType(entityClass);
+        return entitiesByType.size();
     }
 }
