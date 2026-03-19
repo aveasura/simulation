@@ -73,8 +73,7 @@ public class BfsPathFinder implements PathFinder {
             return Collections.emptyList();
         }
 
-        List<Position> path = buildPath(target, parents);
-        return path;
+        return buildPath(target, parents);
     }
 
     private List<Position> buildPath(Position target, Map<Position, Position> parents) {
