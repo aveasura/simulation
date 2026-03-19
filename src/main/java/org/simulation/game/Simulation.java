@@ -8,6 +8,7 @@ import org.simulation.ui.console.renderer.step.StepRenderer;
 import java.util.List;
 import java.util.Objects;
 
+// TODO: ref
 public class Simulation {
 
     private static final int PAUSE_POLL_DELAY_MS = 100;
@@ -38,19 +39,21 @@ public class Simulation {
         this.mapRenderer = Objects.requireNonNull(mapRenderer, "mapRenderer must not be null");
         this.stepRenderer = Objects.requireNonNull(stepRenderer, "stepRenderer must not be null");
         this.sleeper = Objects.requireNonNull(sleeper, "sleeper must not be null");
+
+        executeActions(initialActions);
     }
 
     public void startSimulation() {
-        executeActions(initialActions); // todo в конструкторе
+        executeActions(initialActions);
 
-        while (running) { // todo isRunning = true
+        while (running) {
             nextTurn();
-            sleeper.sleep(TURN_DELAY_MS); // todo
+            sleeper.sleep(TURN_DELAY_MS);
         }
     }
 
     public void nextTurn() {
-        waitWhilePaused(); // todo сделать по тз
+        waitWhilePaused();
         if (!running) {
             return;
         }
