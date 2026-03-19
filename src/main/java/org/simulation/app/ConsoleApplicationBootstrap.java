@@ -95,7 +95,7 @@ public final class ConsoleApplicationBootstrap {
 
         Runner runner = new SimulationRunner(simulationFactory);
 
-        MainMenuRenderer mainMenuRenderer = new ConsoleMainMenuRenderer(output);
+        MainMenuRenderer mainMenuRenderer = new ConsoleMainMenuRenderer(symbolProvider, output);
         ControlMenuRenderer controlMenuRenderer = new ConsoleControlMenuRenderer(output);
 
         MainMenuController mainMenuController = new MainMenuController(runner, mainMenuRenderer);

@@ -23,17 +23,28 @@ public class DefaultEntitySymbolProvider implements EntitySymbolProvider {
 
     @Override
     public String getSymbol(Entity entity) {
-        Class<? extends Entity> entityClass = entity.getClass();
-        String symbol = SYMBOLS.get(entityClass);
-        if (symbol == null) {
-            throw new IllegalArgumentException("Unknown entity class: " + entityClass);
+        if (entity == null) {
+            throw new IllegalArgumentException("Entity must not be null");
         }
 
-        return symbol;
+        return validateAndGetSymbol(entity.getClass());
+    }
+
+    @Override
+    public String getSymbol(Class<? extends Entity> entityClass) {
+        return validateAndGetSymbol(entityClass);
     }
 
     @Override
     public String getEmptySymbol() {
         return EMPTY_SYMBOL;
+    }
+
+    private static String validateAndGetSymbol(Class<? extends Entity> entityClass) {
+        String symbol = SYMBOLS.get(entityClass);
+        if (symbol == null) {
+            throw new IllegalArgumentException("Unknown entity class: " + entityClass);
+        }
+        return symbol;
     }
 }
