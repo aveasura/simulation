@@ -37,7 +37,7 @@ public final class RandomFreePositionGenerator {
 
     private boolean hasFreeCell(GameMap gameMap) {
         int totalCells = getMapArea(gameMap);
-        int occupiedCells = calculateOccupiedCells(gameMap);
+        int occupiedCells = getOccupiedCells(gameMap);
         int free = totalCells - occupiedCells;
         return free > 0;
     }
@@ -46,7 +46,7 @@ public final class RandomFreePositionGenerator {
         return gameMap.getHeight() * gameMap.getWidth();
     }
 
-    private int calculateOccupiedCells(GameMap gameMap) {
+    private int getOccupiedCells(GameMap gameMap) {
         List<Entity> entitiesByType = gameMap.getEntitiesByType(Entity.class);
         return entitiesByType.size();
     }
